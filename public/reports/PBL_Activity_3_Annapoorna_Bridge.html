@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PBL Activity 3: Complex Problem Solving - Annapoorna Bridge</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --primary: #15803d;
+      --secondary: #b45309;
+      --text: #1e293b;
+      --light-bg: #f8fafc;
+      --border: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background-color: #f1f5f9;
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .no-print {
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn-print {
+      background: #16a34a;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 15px;
+      transition: background 0.2s;
+    }
+
+    .btn-print:hover {
+      background: #15803d;
+    }
+
+    .document-container {
+      max-width: 820px;
+      margin: 30px auto;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .page {
+      padding: 55px 65px;
+      min-height: 1100px;
+      position: relative;
+      background: #fff;
+    }
+
+    .page:not(:last-child) {
+      border-bottom: 2px dashed #e2e8f0;
+    }
+
+    /* Page 1 (Cover Page) */
+    .cover-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: space-between;
+      min-height: 1050px;
+      padding: 60px 50px;
+    }
+
+    .univ-header {
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      color: #0f172a;
+      margin-bottom: 5px;
+    }
+
+    .inst-name {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 23px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .inst-place {
+      font-size: 16px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 25px;
+    }
+
+    .logo-container {
+      margin: 15px 0 20px 0;
+    }
+
+    .project-logo {
+      width: 145px;
+      height: 145px;
+      object-fit: contain;
+      border-radius: 50%;
+      border: 3px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .activity-badge {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1e3a8a;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .project-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 25px;
+      font-weight: 700;
+      color: #166534;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      max-width: 650px;
+    }
+
+    .submission-note {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .course-title {
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 13.5px;
+    }
+
+    .team-grid {
+      margin: 15px 0;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .guide-box {
+      margin: 15px 0;
+      font-size: 13px;
+    }
+
+    .domain-box {
+      font-size: 11.5px;
+      color: #334155;
+      line-height: 1.6;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 15px;
+      width: 100%;
+    }
+
+    /* Standard Content Sections */
+    h2.section-heading {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e3a8a;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding-bottom: 5px;
+      margin-top: 25px;
+      margin-bottom: 12px;
+    }
+
+    h3.sub-heading {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 16px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    /* Professional Tables */
+    table.report-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 18px 0;
+      font-size: 12px;
+    }
+
+    table.report-table th, table.report-table td {
+      border: 1px solid #cbd5e1;
+      padding: 7px 10px;
+      text-align: left;
+    }
+
+    table.report-table th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    table.report-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: #0f766e;
+    }
+
+    .badge-sdg {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .sdg2 { background-color: #DDA63A; }
+    .sdg11 { background-color: #F89D2A; }
+    .sdg12 { background-color: #BF8B2E; }
+    .sdg13 { background-color: #3F7E44; }
+
+    @media print {
+      body {
+        background-color: #fff;
+        font-size: 12pt;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .document-container {
+        box-shadow: none;
+        margin: 0;
+        max-width: 100%;
+      }
+      .page {
+        padding: 40px 45px;
+        min-height: auto;
+        page-break-after: always;
+        border-bottom: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Floating Print Bar -->
+  <div class="no-print">
+    <span>📄 <strong>PBL Activity 3 Report Format</strong>: Configured for <strong>Annapoorna Bridge</strong> & SVIT Vasad</span>
+    <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+  </div>
+
+  <div class="document-container">
+
+    <!-- ==================== PAGE 1: TITLE / COVER PAGE ==================== -->
+    <div class="page cover-page">
+      <div>
+        <div class="univ-header">Gujarat Technological University</div>
+        <div class="inst-name">Sardar Vallabhbhai Patel Institute of Technology (SVIT)</div>
+        <div class="inst-place">Vasad</div>
+      </div>
+
+      <div class="logo-container">
+        <!-- Imported Logo from website assets -->
+        <img src="../assets/logo.png" alt="Annapoorna Bridge Logo" class="project-logo" />
+      </div>
+
+      <div>
+        <div class="activity-badge">PBL Activity 3: Complex Problem Solving (CPS)</div>
+        <div class="project-title">
+          Annapoorna Bridge – An SDG-Oriented Real-Time Web Platform for Safe Surplus Food Redistribution
+        </div>
+
+        <div class="submission-note">
+          Submitted in partial fulfilment of the requirement for the course<br />
+          <span class="course-title">Web Application Development</span><br />
+          Bachelor of Engineering — Computer Engineering
+        </div>
+      </div>
+
+      <div class="team-grid">
+        <strong>Submitted by:</strong><br />
+        Vraj Suthar - 240410107051<br />
+        Team Member 2 - 240410107053<br />
+        Team Member 3 - 240410107061<br />
+        Team Member 4 - 240410107066
+      </div>
+
+      <div class="guide-box">
+        <strong>Internal Faculty Guide:</strong><br />
+        Prof. Nidhi Shah
+      </div>
+
+      <div class="domain-box">
+        <strong>Domain:</strong> Food Security, Urban Logistics & Food Waste Reduction<br />
+        <strong>SDGs Addressed:</strong> 
+        <span class="badge-sdg sdg2">SDG 2 (Zero Hunger) – Primary</span> | 
+        <span class="badge-sdg sdg11">SDG 11 (Sustainable Cities & Communities) – Primary</span> | 
+        <span class="badge-sdg sdg12">SDG 12 (Responsible Consumption)</span> | 
+        <span class="badge-sdg sdg13">SDG 13 (Climate Action) – Indirect</span><br />
+        <strong>Academic Year:</strong> 2026-27
+      </div>
+    </div>
+
+    <!-- ==================== PAGE 2: ACKNOWLEDGEMENT, ABSTRACT, INTRO, PROBLEM ==================== -->
+    <div class="page">
+      <h2 class="section-heading">Acknowledgement</h2>
+      <p>
+        We would like to express our sincere gratitude to our internal faculty guide, <strong>Prof. Nidhi Shah</strong>, for continuous guidance, encouragement, and valuable technical feedback throughout this Problem-Based Learning (PBL) activity in the Web Application Development course.
+      </p>
+      <p>
+        We also extend our thanks to the Department of Computer Engineering, SVIT Vasad, and Gujarat Technological University for providing us this opportunity to engineer web development solutions addressing a critical humanitarian and sustainability challenge.
+      </p>
+
+      <h2 class="section-heading">Abstract</h2>
+      <p>
+        <strong>Annapoorna Bridge</strong> is a full-stack, real-time web application engineered to bridge the critical gap between commercial surplus food generators (marriage banquet halls, convention centers, hostels, and caterers) and verified food-relief NGOs (community kitchens, shelter homes, and charities) in India before food reaches microbial expiration.
+      </p>
+      <p>
+        Operating on the statutory <strong>FSSAI 4-hour golden window</strong>, the platform incorporates JWT authentication, role-based access control (RBAC), real-time WebSocket feeds (Socket.io), dynamic perishable countdown timers, atomic concurrency-safe claims, automated pickup dispatch slips with 6-digit verification codes, and an automated UN SDG impact calculation engine (measuring meals served and CO₂ emissions avoided).
+      </p>
+      <p>
+        The platform features an Express.js and Node.js RESTful API, MongoDB persistence, and an accessible frontend, deployed serverlessly on Vercel with zero downtime.
+      </p>
+
+      <h2 class="section-heading">1. Introduction</h2>
+      <p>
+        In India, an estimated 68 million tonnes of food is wasted annually, with large-scale marriage banquets and institutional hostels generating massive quantities of high-nutrition cooked surplus. Concurrently, millions of underprivileged citizens experience chronic hunger. The fundamental failure is not food scarcity, but the absence of a time-critical, hygienic logistical pipeline.
+      </p>
+      <p>
+        <strong>Annapoorna Bridge</strong> addresses this gap by implementing advanced web technologies: modular RESTful architectures, WebSocket event streaming, atomic concurrency handlers, role-based workflows, and FSSAI temperature-holding compliance to facilitate safe, transparent food recovery.
+      </p>
+
+      <h2 class="section-heading">2. Problem Statement</h2>
+      <p>
+        Design and implement a production-ready, full-stack web application that allows verified food donors (banquet managers, hostel admins) to list hot perishable surplus food, and enables accredited NGOs to discover and atomically claim it within strict safe consumption windows while measuring SDG metrics.
+      </p>
+
+      <h3 class="sub-heading">1.1 Why this is a Complex Problem</h3>
+      <ul>
+        <li><strong>Strict Time Constraints:</strong> Cooked Indian food spoils rapidly at ambient temperatures (5°C to 60°C); listings must auto-expire and display live countdown tickers.</li>
+        <li><strong>High-Concurrency Race Conditions:</strong> Multiple relief NGOs operate in the same city; concurrent claiming of a single food batch must be atomic to prevent duplicate pickups.</li>
+        <li><strong>Food Safety & Statutory Compliance:</strong> Enforcing FSSAI temperature discipline (&gt;60°C for hot holding, &lt;5°C for cold storage) prior to handoff.</li>
+        <li><strong>Identity Verification:</strong> Requiring statutory licenses (FSSAI/GST for donors, Darpan ID/Trust Registration for NGOs) to prevent fraud.</li>
+        <li><strong>Measurable SDG Contribution:</strong> Converting physical mass (kg/plates) into verified environmental (CO₂e) and nutritional indicators.</li>
+      </ul>
+    </div>
+
+    <!-- ==================== PAGE 3: OBJECTIVES, SDG MAPPING, SYSTEM DESIGN ==================== -->
+    <div class="page">
+      <h2 class="section-heading">3. Objectives</h2>
+      <ul>
+        <li>To enable event managers and hostels to publish surplus food listings with compliance checklists in under 60 seconds.</li>
+        <li>To broadcast real-time, city-level surplus alerts to verified NGOs using WebSockets with visual urgent tags (&lt;2h remaining).</li>
+        <li>To prevent race conditions and duplicate claims using atomic database find-and-update operations.</li>
+        <li>To generate printable digital dispatch slips with donor venue landmarks and unique 6-digit secure handover codes.</li>
+        <li>To track real-time platform impact metrics: meals delivered, food rescued in kg, and CO₂ emissions diverted.</li>
+      </ul>
+
+      <h2 class="section-heading">4. SDG Mapping</h2>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th style="width: 32%;">UN SDG / Target</th>
+            <th>How Annapoorna Bridge Contributes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SDG 2: Zero Hunger</strong><br />(Target 2.1 – Universal access to safe food)</td>
+            <td>Redirects hot, nutritious surplus meals from high-volume banquets directly to community kitchens and shelters within the safe consumption window.</td>
+          </tr>
+          <tr>
+            <td><strong>SDG 11: Sustainable Cities</strong><br />(Target 11.6 – Reduce urban environmental impact)</td>
+            <td>Reduces municipal solid organic waste going to urban dumpsites, promoting circular food redistribution in Tier-1 and Tier-2 Indian cities.</td>
+          </tr>
+          <tr>
+            <td><strong>SDG 12: Responsible Consumption</strong><br />(Target 12.3 – Halve global per capita food waste)</td>
+            <td>Incentivizes commercial hospitality venues to maintain zero edible waste through statutory audit trails and transparent donor recognitions.</td>
+          </tr>
+          <tr>
+            <td><strong>SDG 13: Climate Action</strong><br />(Indirect mitigation)</td>
+            <td>Prevents anaerobic decomposition of organic food in landfills, mitigating methane and greenhouse gas emissions (~2.5 kg CO₂e saved per kg food rescued).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-heading">5. System Design</h2>
+
+      <h3 class="sub-heading">4.1 Architecture</h3>
+      <p>
+        The platform implements a decoupled, modern three-tier web architecture:
+        <strong>Presentation Layer</strong> (Responsive HTML5/CSS3/Vanilla ES6+ SPA) ➔ 
+        <strong>Application Layer</strong> (Node.js + Express.js REST API with Socket.io real-time streaming) ➔ 
+        <strong>Persistence Layer</strong> (MongoDB Atlas with Mongoose ODM & transactional audit logs).
+      </p>
+
+      <h3 class="sub-heading">4.2 Technology Stack</h3>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Technology</th>
+            <th>Design Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Frontend</td>
+            <td>HTML5, CSS3, Tailwind CSS CDN, Vanilla ES6+ JS</td>
+            <td>Ultra-lightweight, zero bundle-build latency, instant performance on mobile devices.</td>
+          </tr>
+          <tr>
+            <td>Backend</td>
+            <td>Node.js (v24), Express.js (v5)</td>
+            <td>High-throughput asynchronous I/O, RESTful routing, robust error middleware.</td>
+          </tr>
+          <tr>
+            <td>Real-Time</td>
+            <td>Socket.io & Web Audio API</td>
+            <td>Bidirectional event broadcasting for instant alert feeds and audio chimes.</td>
+          </tr>
+          <tr>
+            <td>Database</td>
+            <td>MongoDB + Mongoose ODM</td>
+            <td>Flexible document schema for varied food payloads; atomic <code>findOneAndUpdate</code>.</td>
+          </tr>
+          <tr>
+            <td>Authentication</td>
+            <td>JWT, bcryptjs, RBAC Middleware</td>
+            <td>Stateless authentication tokens with role validation (Donor, NGO, Admin).</td>
+          </tr>
+          <tr>
+            <td>Deployment</td>
+            <td>Vercel (Serverless Functions & Edge CDN)</td>
+            <td>Global edge caching for assets; auto-scaling serverless API endpoints.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub-heading">4.3 Data Model</h3>
+      <ul>
+        <li><strong>User:</strong> <code>id</code>, <code>name</code>, <code>email</code>, <code>passwordHash</code>, <code>role</code> (donor | ngo | admin), <code>orgName</code>, <code>city</code>, <code>address</code>, <code>licenseOrDarpanId</code>, <code>isVerified</code>.</li>
+        <li><strong>FoodListing:</strong> <code>id</code>, <code>donorId</code>, <code>foodTitle</code>, <code>foodType</code>, <code>dietaryType</code> (veg | non-veg), <code>quantityValue</code>, <code>quantityUnit</code>, <code>cookedTime</code>, <code>safeUntil</code>, <code>storageCondition</code>, <code>pickupAddress</code>, <code>status</code> (available | claimed | in_transit | delivered | expired), <code>claimedBy</code>, <code>volunteerDetails</code>, <code>pickupVerificationCode</code>.</li>
+        <li><strong>AuditLog:</strong> <code>id</code>, <code>action</code>, <code>listingId</code>, <code>userId</code>, <code>details</code>, <code>createdAt</code>.</li>
+      </ul>
+    </div>
+
+    <!-- ==================== PAGE 4: REST API, IMPLEMENTATION, TESTING ==================== -->
+    <div class="page">
+      <h3 class="sub-heading">4.5 REST API Specifications</h3>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Access</th>
+            <th>Functional Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>POST</code></td>
+            <td><code>/api/auth/register</code></td>
+            <td>Public</td>
+            <td>Register donor/NGO with license or Darpan ID.</td>
+          </tr>
+          <tr>
+            <td><code>POST</code></td>
+            <td><code>/api/auth/login</code></td>
+            <td>Public</td>
+            <td>Authenticate user and return JWT bearer token.</td>
+          </tr>
+          <tr>
+            <td><code>GET</code></td>
+            <td><code>/api/listings</code></td>
+            <td>Public/Auth</td>
+            <td>Search & filter active surplus alerts by city, diet, urgency.</td>
+          </tr>
+          <tr>
+            <td><code>POST</code></td>
+            <td><code>/api/listings</code></td>
+            <td>Donor</td>
+            <td>Publish new surplus batch with safety acknowledgment.</td>
+          </tr>
+          <tr>
+            <td><code>POST</code></td>
+            <td><code>/api/listings/:id/claim</code></td>
+            <td>NGO</td>
+            <td><strong>Atomic claim</strong>, assign volunteer & generate dispatch slip.</td>
+          </tr>
+          <tr>
+            <td><code>PATCH</code></td>
+            <td><code>/api/listings/:id/status</code></td>
+            <td>NGO/Donor</td>
+            <td>Advance status to <code>in_transit</code> or <code>delivered</code>.</td>
+          </tr>
+          <tr>
+            <td><code>GET</code></td>
+            <td><code>/api/analytics/impact</code></td>
+            <td>Public</td>
+            <td>Calculate live SDG 2 & 11 metrics and city distributions.</td>
+          </tr>
+          <tr>
+            <td><code>PATCH</code></td>
+            <td><code>/api/admin/users/:id/verify</code></td>
+            <td>Admin</td>
+            <td>Approve or revoke partner verification credentials.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-heading">6. Key Implementation Details</h2>
+      <ul>
+        <li><strong>Atomic Concurrency Control:</strong> To eliminate duplicate claims, the server executes <code>FoodListing.findOneAndUpdate({ _id, status: 'available', safeUntil: { $gt: now } }, { $set: { status: 'claimed' } })</code>. Competing requests receive HTTP 409 Conflict.</li>
+        <li><strong>Dynamic Countdown Clocks:</strong> Client intervals execute every 1000ms computing remaining shelf-life. Listings with &lt; 2 hours remaining receive pulsating high-priority CSS styling.</li>
+        <li><strong>FSSAI Safety Verification:</strong> Mandates donors declare compliance with temperature maintenance (&gt;60°C hot warmers, &lt;5°C chillers) and clean food-grade containers prior to posting.</li>
+        <li><strong>Handover Verification Pass:</strong> Claims generate a cryptographically pseudo-random 6-character code (e.g., <code>AB-8419</code>) required upon physical pickup to verify relief volunteer identity.</li>
+        <li><strong>SDG Mathematical Models:</strong>
+          <ul>
+            <li><code>Meals Delivered</code> = Sum of portions (where 1 kg cooked food ≈ 2.5 standard meal portions).</li>
+            <li><code>Food Rescued (kg)</code> = Total mass diverted from municipal waste.</li>
+            <li><code>CO₂e Avoided (kg)</code> = <code>Rescued kg × 2.5</code> (Based on UNEP/FAO organic degradation models).</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h2 class="section-heading">7. Verification and Testing</h2>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Test Scenario</th>
+            <th>Expected System Behavior</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Donor registers with duplicate email</td>
+            <td>HTTP 400 with duplicate email message</td>
+            <td>Pass</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>NGO attempts to submit surplus food post</td>
+            <td>HTTP 403 Forbidden (RBAC blocks non-donor)</td>
+            <td>Pass</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Donor posts batch without safety checkbox</td>
+            <td>HTTP 400: Mandatory safety checklist error</td>
+            <td>Pass</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Two NGOs simultaneously claim the same batch</td>
+            <td>1st succeeds (200), 2nd receives 409 Conflict</td>
+            <td>Pass</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Listing safeUntil threshold passes</td>
+            <td>Status changes to Expired; hidden from active feed</td>
+            <td>Pass</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Filter feed by city (e.g. Chennai) & Veg</td>
+            <td>Only matching items returned by API</td>
+            <td>Pass</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Volunteer updates transit status to in_transit</td>
+            <td>Socket event broadcasts; donor dashboard updates</td>
+            <td>Pass</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Admin approves pending NGO Darpan ID</td>
+            <td>Partner verification badge activates across UI</td>
+            <td>Pass</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ==================== PAGE 5: IMPACT, CHALLENGES, CONCLUSION, REFS ==================== -->
+    <div class="page">
+      <h2 class="section-heading">8. Impact and Outcomes</h2>
+      <ul>
+        <li><strong>Rapid Redistribution:</strong> Reduces the surplus-to-claim cycle to under 30 minutes, keeping food well within the 4-hour golden window.</li>
+        <li><strong>Verifiable Accountability:</strong> Replaces unorganized phone calls with printable dispatch slips, verification codes, and permanent audit logs.</li>
+        <li><strong>Tangible Sustainability:</strong> Provides donors and municipalities with measurable ESG/SDG metrics (kg food rescued and kg CO₂e diverted).</li>
+        <li><strong>High Scalability:</strong> Ready for adoption across Indian marriage halls, university hostel messes, corporate cafeterias, and langars.</li>
+      </ul>
+
+      <h2 class="section-heading">9. Challenges and Solutions</h2>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th style="width: 30%;">Technical / Operational Challenge</th>
+            <th>Engineered Solution in Annapoorna Bridge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Rapid Food Spoilage</strong></td>
+            <td>Dynamic perishable countdown timers, &lt;2h urgent tags, and FSSAI temperature holding guides.</td>
+          </tr>
+          <tr>
+            <td><strong>Concurrent Claim Conflicts</strong></td>
+            <td>Atomic database find-and-modify queries ensuring zero double-allocations under high concurrency.</td>
+          </tr>
+          <tr>
+            <td><strong>Trust & Credibility</strong></td>
+            <td>Mandatory FSSAI licenses and NGO Darpan IDs verified via an integrated administrative panel.</td>
+          </tr>
+          <tr>
+            <td><strong>Misplaced Pickups</strong></td>
+            <td>Generated printable pickup dispatch slips paired with 6-digit handover verification codes.</td>
+          </tr>
+          <tr>
+            <td><strong>Deployment in Serverless Clouds</strong></td>
+            <td>Cached Mongoose database connection pooling and automatic fallback mechanisms for Vercel.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-heading">10. Conclusion</h2>
+      <p>
+        <strong>Annapoorna Bridge</strong> demonstrates how modern full-stack web engineering directly solves complex socio-environmental problems. By integrating RESTful API principles, role-based access control, WebSocket alerts, atomic transaction safety, and statutory FSSAI compliance, the platform transforms surplus food from a waste liability into a life-saving community asset.
+      </p>
+      <p>
+        The platform successfully bridges surplus with need, providing a scalable, transparent blueprint for zero-hunger initiatives under UN SDG 2 and sustainable, waste-resilient cities under UN SDG 11.
+      </p>
+
+      <h2 class="section-heading">11. References</h2>
+      <ul>
+        <li>United Nations Department of Economic and Social Affairs, <em>Sustainable Development Goals</em> – <a href="https://sdgs.un.org" target="_blank">sdgs.un.org</a></li>
+        <li>Food Safety and Standards Authority of India (FSSAI), <em>Regulations for Surplus Food Donation and Safe Handling</em> – <a href="https://fssai.gov.in" target="_blank">fssai.gov.in</a></li>
+        <li>United Nations Environment Programme (UNEP), <em>Food Waste Index Report</em>.</li>
+        <li>Food and Agriculture Organization (FAO), <em>The State of Food and Agriculture: Moving from Food Loss to Sustainable Food Systems</em>.</li>
+        <li>Express.js Documentation, Socket.io Documentation, and OWASP Top 10 Web Application Security Standards.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</body>
+</html>
