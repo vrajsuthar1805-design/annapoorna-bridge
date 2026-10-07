@@ -1,0 +1,126 @@
+/* ==========================================================
+   ANNAPOORNA BRIDGE - Custom Styles & SDG Branding
+   UN SDG 2 (Zero Hunger) & UN SDG 11 (Sustainable Cities)
+========================================================== */
+
+:root {
+  --primary-green: #15803d;
+  --primary-emerald: #059669;
+  --sdg2-gold: #dda63a;
+  --sdg11-amber: #f89d2a;
+  --sdg-dark: #0f172a;
+  --veg-color: #16a34a;
+  --nonveg-color: #dc2626;
+  --danger-zone: #ef4444;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Indian Veg / Non-Veg Indicator Squares */
+.diet-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border-width: 2px;
+  border-style: solid;
+  background-color: #ffffff;
+}
+.diet-badge.veg {
+  border-color: var(--veg-color);
+}
+.diet-badge.veg .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--veg-color);
+}
+.diet-badge.non-veg {
+  border-color: var(--nonveg-color);
+}
+.diet-badge.non-veg .dot {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid var(--nonveg-color);
+}
+
+/* Countdown Pulse */
+@keyframes urgentPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+}
+
+.countdown-urgent {
+  animation: urgentPulse 2s infinite;
+}
+
+/* Print styles for pickup dispatch slip */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #dispatchSlipModal, #dispatchSlipModal * {
+    visibility: visible;
+  }
+  #dispatchSlipModal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Live audio alert bell ring */
+@keyframes ringBell {
+  0% { transform: rotate(0); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-14deg); }
+  30% { transform: rotate(10deg); }
+  40% { transform: rotate(-10deg); }
+  50% { transform: rotate(6deg); }
+  60% { transform: rotate(-6deg); }
+  100% { transform: rotate(0); }
+}
+
+.bell-ring {
+  animation: ringBell 0.8s ease-in-out;
+}
+
+/* Glassmorphism effects */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+}

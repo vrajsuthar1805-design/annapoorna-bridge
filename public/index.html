@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annapoorna Bridge | Connecting Surplus with Need</title>
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            },
+            sdg2: {
+              DEFAULT: '#DDA63A',
+              dark: '#b88223',
+            },
+            sdg11: {
+              DEFAULT: '#F89D2A',
+              dark: '#cf7a13',
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Socket.io Client CDN -->
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased">
+
+  <!-- ================= TOP NOTIFICATION / DEMO BAR ================= -->
+  <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-amber-900 text-white text-xs py-1.5 px-4 no-print">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-500/30 text-amber-200 border border-amber-400/30">
+          🎯 UN SDG 2 (Zero Hunger) & SDG 11 (Sustainable Cities)
+        </span>
+        <span class="hidden md:inline text-emerald-200">| Safe Surplus Food Redistribution Platform (India)</span>
+      </div>
+      
+      <!-- Quick Demo Switcher -->
+      <div class="flex items-center gap-2">
+        <span class="text-emerald-200 font-medium hidden sm:inline">⚡ Quick Role Switch:</span>
+        <div class="inline-flex rounded-md shadow-sm" role="group">
+          <button type="button" onclick="quickLogin('admin@annapoorna.org', 'Admin@123')" class="px-2 py-0.5 text-[11px] font-medium bg-emerald-700 hover:bg-emerald-600 rounded-l border border-emerald-600">Admin</button>
+          <button type="button" onclick="quickLogin('donor@grandchola.com', 'Donor@123')" class="px-2 py-0.5 text-[11px] font-medium bg-emerald-700 hover:bg-emerald-600 border-t border-b border-r border-emerald-600">Donor (Chola)</button>
+          <button type="button" onclick="quickLogin('donor@iitdhostel.ac.in', 'Donor@123')" class="px-2 py-0.5 text-[11px] font-medium bg-emerald-700 hover:bg-emerald-600 border-t border-b border-r border-emerald-600 hidden md:inline">Donor (IIT D)</button>
+          <button type="button" onclick="quickLogin('ngo@rotibank.org', 'Ngo@123')" class="px-2 py-0.5 text-[11px] font-medium bg-emerald-700 hover:bg-emerald-600 border-t border-b border-r border-emerald-600">NGO (Roti Bank)</button>
+          <button type="button" onclick="quickLogin('ngo@feedingindia.org', 'Ngo@123')" class="px-2 py-0.5 text-[11px] font-medium bg-emerald-700 hover:bg-emerald-600 rounded-r border-t border-b border-r border-emerald-600">NGO (Feeding IN)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN HEADER & NAVIGATION ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo & Title -->
+        <a href="#feed" onclick="switchTab('feed')" class="flex items-center gap-3.5 group">
+          <img src="assets/logo.png" alt="Annapoorna Bridge Logo" class="h-14 w-auto object-contain transition-transform group-hover:scale-105" />
+          <div class="flex flex-col">
+            <span class="text-xl sm:text-2xl font-black tracking-tight text-emerald-900 group-hover:text-emerald-700 transition">
+              ANNAPOORNA BRIDGE
+            </span>
+            <span class="text-[11px] uppercase tracking-wider font-semibold text-amber-700 -mt-0.5">
+              Connecting Surplus with Need
+            </span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-1 xl:gap-2">
+          <button onclick="switchTab('feed')" id="nav-feed" class="nav-tab px-3 py-2 rounded-lg text-sm font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition flex items-center gap-1.5">
+            <i data-lucide="utensils" class="w-4 h-4 text-emerald-600"></i>
+            Live Surplus Feed
+          </button>
+          
+          <button onclick="switchTab('post-food')" id="nav-post-food" class="nav-tab px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-emerald-700 hover:bg-emerald-50/60 transition flex items-center gap-1.5">
+            <i data-lucide="plus-circle" class="w-4 h-4 text-amber-600"></i>
+            Post Food <span class="text-[10px] uppercase font-bold px-1.5 py-0.2 bg-amber-100 text-amber-800 rounded">Donor</span>
+          </button>
+
+          <button onclick="switchTab('donor-postings')" id="nav-donor-postings" class="nav-tab px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-emerald-700 hover:bg-emerald-50/60 transition flex items-center gap-1.5 hidden">
+            <i data-lucide="clipboard-list" class="w-4 h-4 text-emerald-600"></i>
+            My Postings
+          </button>
+
+          <button onclick="switchTab('ngo-claims')" id="nav-ngo-claims" class="nav-tab px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-emerald-700 hover:bg-emerald-50/60 transition flex items-center gap-1.5 hidden">
+            <i data-lucide="truck" class="w-4 h-4 text-blue-600"></i>
+            NGO Claims & Trips
+          </button>
+
+          <button onclick="switchTab('safety-hub')" id="nav-safety-hub" class="nav-tab px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-emerald-700 hover:bg-emerald-50/60 transition flex items-center gap-1.5">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+            FSSAI Safety Hub
+          </button>
+
+          <button onclick="switchTab('impact-hub')" id="nav-impact-hub" class="nav-tab px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-emerald-700 hover:bg-emerald-50/60 transition flex items-center gap-1.5">
+            <i data-lucide="bar-chart-3" class="w-4 h-4 text-amber-600"></i>
+            SDG Analytics
+          </button>
+
+          <button onclick="switchTab('admin-hub')" id="nav-admin-hub" class="nav-tab px-3 py-2 rounded-lg text-sm font-medium text-purple-700 bg-purple-50 hover:bg-purple-100 transition items-center gap-1.5 hidden">
+            <i data-lucide="settings" class="w-4 h-4 text-purple-600"></i>
+            Admin Hub
+          </button>
+        </nav>
+
+        <!-- Right Side: Notifications, Audio & User Profile -->
+        <div class="flex items-center gap-2.5">
+          
+          <!-- Sound Toggle -->
+          <button id="audioToggleBtn" onclick="toggleAudio()" title="Toggle Alert Sound" class="p-2 rounded-lg text-slate-500 hover:text-emerald-700 hover:bg-slate-100 transition">
+            <i data-lucide="volume-2" id="audioIcon" class="w-5 h-5"></i>
+          </button>
+
+          <!-- Notification Bell -->
+          <div class="relative">
+            <button id="notifBellBtn" onclick="toggleNotifDrawer()" class="relative p-2 rounded-lg text-slate-600 hover:text-emerald-700 hover:bg-slate-100 transition">
+              <i data-lucide="bell" id="bellIcon" class="w-5 h-5"></i>
+              <span id="notifBadge" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white"></span>
+            </button>
+            
+            <!-- Notification Popover Drawer -->
+            <div id="notifDrawer" class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-2xl border border-slate-200 z-50 overflow-hidden">
+              <div class="bg-gradient-to-r from-emerald-800 to-teal-800 text-white px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-2 font-bold text-sm">
+                  <i data-lucide="bell-ring" class="w-4 h-4"></i>
+                  Live SMS & Alert Dispatch Log
+                </div>
+                <button onclick="clearNotifs()" class="text-xs text-emerald-200 hover:text-white underline">Clear</button>
+              </div>
+              <div id="notifList" class="max-h-80 overflow-y-auto divide-y divide-slate-100 text-xs p-2">
+                <div class="p-4 text-center text-slate-400">No new alerts yet</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Auth Section -->
+          <div id="authActions" class="flex items-center gap-2">
+            <button onclick="openModal('loginModal')" class="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 rounded-lg transition">
+              Sign In
+            </button>
+            <button onclick="openModal('registerModal')" class="px-4 py-2 text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-lg shadow-sm transition flex items-center gap-1.5">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              Register
+            </button>
+          </div>
+
+          <!-- Logged In User Pill -->
+          <div id="userProfile" class="hidden flex items-center gap-2 bg-slate-100 pl-3 pr-1 py-1 rounded-full border border-slate-200">
+            <div class="flex flex-col text-left">
+              <span id="userOrgName" class="text-xs font-bold text-slate-900 leading-tight max-w-[130px] truncate">Org Name</span>
+              <span id="userRoleBadge" class="text-[10px] font-semibold text-emerald-700 capitalize leading-tight">Role</span>
+            </div>
+            <button onclick="logout()" title="Sign Out" class="p-1.5 rounded-full hover:bg-slate-200 text-slate-500 hover:text-red-600 transition">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-slate-600 hover:text-slate-900">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Navigation -->
+      <div id="mobileMenu" class="hidden lg:hidden py-3 border-t border-slate-100 space-y-1">
+        <button onclick="switchTab('feed'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-emerald-50 flex items-center gap-2">
+          <i data-lucide="utensils" class="w-4 h-4 text-emerald-600"></i> Live Surplus Feed
+        </button>
+        <button onclick="switchTab('post-food'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-emerald-50 flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-4 h-4 text-amber-600"></i> Post Food (Donor)
+        </button>
+        <button onclick="switchTab('donor-postings'); toggleMobileMenu()" id="mob-nav-donor" class="hidden w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-emerald-50 flex items-center gap-2">
+          <i data-lucide="clipboard-list" class="w-4 h-4 text-emerald-600"></i> My Postings
+        </button>
+        <button onclick="switchTab('ngo-claims'); toggleMobileMenu()" id="mob-nav-ngo" class="hidden w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-emerald-50 flex items-center gap-2">
+          <i data-lucide="truck" class="w-4 h-4 text-blue-600"></i> NGO Claims & Trips
+        </button>
+        <button onclick="switchTab('safety-hub'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-emerald-50 flex items-center gap-2">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> FSSAI Safety Hub
+        </button>
+        <button onclick="switchTab('impact-hub'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-emerald-50 flex items-center gap-2">
+          <i data-lucide="bar-chart-3" class="w-4 h-4 text-amber-600"></i> SDG Analytics
+        </button>
+        <button onclick="switchTab('admin-hub'); toggleMobileMenu()" id="mob-nav-admin" class="hidden w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-purple-700 hover:bg-purple-50 flex items-center gap-2">
+          <i data-lucide="settings" class="w-4 h-4 text-purple-600"></i> Admin Hub
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO & SDG IMPACT TICKER ================= -->
+  <section class="bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-950 text-white relative overflow-hidden py-10 px-4 sm:px-6 lg:px-8 shadow-inner no-print">
+    <!-- Background subtle texture -->
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    
+    <div class="max-w-7xl mx-auto relative z-10">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+        
+        <!-- Left Hero Text -->
+        <div class="max-w-2xl text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-semibold mb-3 border border-amber-500/30">
+            <span>🇮🇳 National Surplus Food Rescue Network</span>
+            <span>•</span>
+            <span>FSSAI Compliant</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+            Stop Food Waste.<br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-emerald-300">
+              Bridge Surplus to Hungry Souls.
+            </span>
+          </h1>
+          <p class="mt-3 text-emerald-100 text-sm sm:text-base leading-relaxed">
+            A real-time bridge connecting Indian banquets, marriage halls, and college hostels with verified food-relief NGOs. Hot food redistributed within its safe 4-hour golden window.
+          </p>
+          
+          <div class="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+            <button onclick="switchTab('post-food')" class="px-5 py-2.5 rounded-lg font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-900/30 transition flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              Donate Surplus Food
+            </button>
+            <button onclick="switchTab('feed')" class="px-5 py-2.5 rounded-lg font-bold text-sm bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur transition flex items-center gap-2">
+              <i data-lucide="radio" class="w-4 h-4 text-emerald-300 animate-pulse"></i>
+              View Live Food Alerts
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Live Metric Counter Cards -->
+        <div class="w-full lg:w-auto grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-4">
+          
+          <!-- Card 1: Meals Served -->
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 text-center flex flex-col items-center justify-center hover:bg-white/15 transition">
+            <div class="w-9 h-9 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center mb-1.5">
+              <i data-lucide="utensils" class="w-5 h-5"></i>
+            </div>
+            <span id="metricMeals" class="text-2xl sm:text-3xl font-black text-amber-300">--</span>
+            <span class="text-[11px] font-medium text-emerald-100 uppercase tracking-wider mt-0.5">Meals Provided</span>
+            <span class="text-[10px] text-amber-200/70 font-semibold">SDG 2 Zero Hunger</span>
+          </div>
+
+          <!-- Card 2: Kg Rescued -->
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 text-center flex flex-col items-center justify-center hover:bg-white/15 transition">
+            <div class="w-9 h-9 rounded-full bg-emerald-400/20 text-emerald-300 flex items-center justify-center mb-1.5">
+              <i data-lucide="scale" class="w-5 h-5"></i>
+            </div>
+            <span id="metricKg" class="text-2xl sm:text-3xl font-black text-white">--</span>
+            <span class="text-[11px] font-medium text-emerald-100 uppercase tracking-wider mt-0.5">Kg Food Rescued</span>
+            <span class="text-[10px] text-emerald-300/80 font-semibold">Clean Recovery</span>
+          </div>
+
+          <!-- Card 3: CO2 Diverted -->
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 text-center flex flex-col items-center justify-center hover:bg-white/15 transition col-span-2 sm:col-span-1">
+            <div class="w-9 h-9 rounded-full bg-teal-400/20 text-teal-300 flex items-center justify-center mb-1.5">
+              <i data-lucide="leaf" class="w-5 h-5"></i>
+            </div>
+            <span id="metricCo2" class="text-2xl sm:text-3xl font-black text-teal-300">--</span>
+            <span class="text-[11px] font-medium text-emerald-100 uppercase tracking-wider mt-0.5">Kg CO₂ Diverted</span>
+            <span class="text-[10px] text-teal-200/80 font-semibold">SDG 11 Cities</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MAIN CONTENT APP CONTAINER ================= -->
+  <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- TAB 1: LIVE SURPLUS FOOD FEED -->
+    <section id="tab-feed" class="tab-content">
+      
+      <!-- Filter Bar -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-xl font-black text-slate-900 tracking-tight">Active Surplus Food Alerts</h2>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 animate-pulse">
+                🔴 Live Feed
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Real-time alerts refreshed via WebSockets. Urgent pickups flagged under 2 hours.</p>
+          </div>
+
+          <!-- Filter Controls -->
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- City Dropdown -->
+            <select id="filterCity" onchange="fetchListings()" class="bg-slate-50 border border-slate-200 text-xs font-semibold rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+              <option value="all">📍 All Cities</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="New Delhi">New Delhi</option>
+              <option value="Jaipur">Jaipur</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Pune">Pune</option>
+            </select>
+
+            <!-- Dietary Dropdown -->
+            <select id="filterDiet" onchange="fetchListings()" class="bg-slate-50 border border-slate-200 text-xs font-semibold rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+              <option value="all">🥗 All Dietary</option>
+              <option value="veg">🟢 Pure Veg</option>
+              <option value="non-veg">🔴 Non-Veg</option>
+            </select>
+
+            <!-- Category Dropdown -->
+            <select id="filterCategory" onchange="fetchListings()" class="bg-slate-50 border border-slate-200 text-xs font-semibold rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+              <option value="all">🍛 All Food Types</option>
+              <option value="Cooked Rice & Curry">Cooked Rice & Curry</option>
+              <option value="Breads & Rotis">Breads & Rotis</option>
+              <option value="Mixed Indian Buffet">Mixed Indian Buffet</option>
+              <option value="Sweets & Desserts">Sweets & Desserts</option>
+              <option value="Packaged / Dry Rations">Packaged Rations</option>
+            </select>
+
+            <!-- Urgent Only Toggle -->
+            <label class="inline-flex items-center gap-1.5 cursor-pointer bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-xs font-bold transition">
+              <input type="checkbox" id="filterUrgent" onchange="fetchListings()" class="rounded text-red-600 focus:ring-red-500 h-3.5 w-3.5" />
+              <span>⚡ &lt; 2 Hrs Urgent</span>
+            </label>
+
+            <!-- Refresh Button -->
+            <button onclick="fetchListings()" class="p-2 text-slate-500 hover:text-emerald-700 hover:bg-slate-100 rounded-lg transition" title="Refresh Feed">
+              <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Food Listing Cards Grid -->
+      <div id="listingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered dynamically by JavaScript -->
+        <div class="col-span-full py-16 text-center text-slate-400">
+          <i data-lucide="loader" class="w-8 h-8 mx-auto animate-spin text-emerald-600 mb-2"></i>
+          Loading active surplus food listings...
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 2: DONOR POST SURPLUS FOOD FORM -->
+    <section id="tab-post-food" class="tab-content hidden max-w-3xl mx-auto">
+      
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        
+        <div class="bg-gradient-to-r from-emerald-800 to-teal-800 text-white p-6 sm:p-8">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-amber-400/20 text-amber-300 text-xs font-semibold mb-2">
+            <i data-lucide="award" class="w-4 h-4"></i> FSSAI Hygienic Surplus Redistribution
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Post Surplus Food Listing</h2>
+          <p class="text-emerald-100 text-xs sm:text-sm mt-1">
+            Fill in the details below. Once submitted, registered local NGOs will receive instant SMS & feed notifications to coordinate rapid pickup.
+          </p>
+        </div>
+
+        <form id="createListingForm" onsubmit="handleCreateListing(event)" class="p-6 sm:p-8 space-y-6">
+          
+          <!-- Quick Preset Buttons for fast evaluation -->
+          <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-3.5">
+            <span class="text-xs font-bold text-amber-900 block mb-2">⚡ Quick 1-Click Form Presets (Click to autofill sample meal):</span>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" onclick="fillPreset('biryani')" class="text-xs font-semibold bg-white hover:bg-amber-100 text-amber-900 px-2.5 py-1 rounded-md border border-amber-200 transition">
+                🍛 Wedding Biryani Buffet (150 plates)
+              </button>
+              <button type="button" onclick="fillPreset('rotis')" class="text-xs font-semibold bg-white hover:bg-amber-100 text-amber-900 px-2.5 py-1 rounded-md border border-amber-200 transition">
+                🫓 Hostel Rotis & Paneer (200 plates)
+              </button>
+              <button type="button" onclick="fillPreset('sweets')" class="text-xs font-semibold bg-white hover:bg-amber-100 text-amber-900 px-2.5 py-1 rounded-md border border-amber-200 transition">
+                🍮 Festival Sweets & Halwa (50 kg)
+              </button>
+            </div>
+          </div>
+
+          <!-- Food Title -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              Food Item Title / Menu Description *
+            </label>
+            <input type="text" id="postFoodTitle" required placeholder="e.g., Dum Biryani, Dal Makhani & Tandoori Rotis" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:outline-none" />
+          </div>
+
+          <!-- Category & Dietary Type -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Food Category *</label>
+              <select id="postFoodType" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                <option value="Cooked Rice & Curry">Cooked Rice & Curry</option>
+                <option value="Breads & Rotis">Breads & Rotis</option>
+                <option value="Mixed Indian Buffet">Mixed Indian Buffet</option>
+                <option value="Sweets & Desserts">Sweets & Desserts</option>
+                <option value="Breakfast / Snacks">Breakfast / Snacks</option>
+                <option value="Packaged / Dry Rations">Packaged / Dry Rations</option>
+                <option value="Dairy & Perishables">Dairy & Perishables</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Dietary Classification *</label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer hover:bg-emerald-50 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50">
+                  <input type="radio" name="postDietaryType" value="veg" checked class="text-emerald-600 focus:ring-emerald-500" />
+                  <span class="diet-badge veg"><span class="dot"></span></span>
+                  <span class="text-xs font-bold text-slate-800">Pure Veg</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer hover:bg-red-50 has-[:checked]:border-red-600 has-[:checked]:bg-red-50">
+                  <input type="radio" name="postDietaryType" value="non-veg" class="text-red-600 focus:ring-red-500" />
+                  <span class="diet-badge non-veg"><span class="dot"></span></span>
+                  <span class="text-xs font-bold text-slate-800">Non-Veg</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quantity & Unit -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Estimated Quantity *</label>
+              <input type="number" id="postQuantityValue" required min="1" placeholder="e.g. 150" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Quantity Unit *</label>
+              <select id="postQuantityUnit" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                <option value="plates">Plates / Meals</option>
+                <option value="kg">Kilograms (Kg)</option>
+                <option value="portions">Portions</option>
+                <option value="packets">Sealed Packets</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Time Cooked & Safe Consumption Window -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">When Was It Cooked? *</label>
+              <input type="datetime-local" id="postCookedTime" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Safe Consumption Window *</label>
+              <select id="postSafeWindowHours" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                <option value="3">3 Hours (Delicate / Cream items)</option>
+                <option value="4" selected>4 Hours (Standard Cooked Hot Meals)</option>
+                <option value="5">5 Hours (Well preserved dry food)</option>
+                <option value="6">6 Hours (Insulated / Pre-chilled)</option>
+                <option value="8">8 Hours (Packaged / Bakery)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Storage Condition -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Current Storage Condition *</label>
+            <select id="postStorageCondition" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+              <option value="Insulated / Hot Container (> 60°C)">🔥 Insulated / Hot Food Warmer (&gt; 60°C Safe Zone)</option>
+              <option value="Ambient / Room Temperature" selected>🌡️ Ambient / Covered Room Temperature</option>
+              <option value="Chilled (< 5°C)">❄️ Chilled Commercial Refrigeration (&lt; 5°C)</option>
+              <option value="Freezer (< -18°C)">🧊 Deep Freeze (&lt; -18°C)</option>
+            </select>
+          </div>
+
+          <!-- Pickup Venue Address & Landmark -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Pickup Venue Address *</label>
+              <input type="text" id="postAddress" required placeholder="Venue Hall name, Gate number, Street" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">City *</label>
+              <select id="postCity" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                <option value="Chennai">Chennai</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="New Delhi">New Delhi</option>
+                <option value="Jaipur">Jaipur</option>
+                <option value="Bengaluru">Bengaluru</option>
+                <option value="Pune">Pune</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Contact Person & Phone -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Venue Contact Person *</label>
+              <input type="text" id="postContactPerson" required placeholder="Chef Incharge / Banquet Manager" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Contact Phone Number *</label>
+              <input type="tel" id="postContactPhone" required placeholder="+91 98765 43210" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- Special Handling Instructions & Photo URL -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Special Logistics Instructions</label>
+              <input type="text" id="postInstructions" placeholder="e.g., Bring 4 large vessels; loading bay at Gate 2" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Photo URL (Optional)</label>
+              <input type="url" id="postPhotoUrl" placeholder="https://..." class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- MANDATORY SAFETY ACKNOWLEDGMENT -->
+          <div class="bg-emerald-50/70 border-2 border-emerald-500/40 rounded-xl p-4 sm:p-5">
+            <div class="flex items-start gap-3">
+              <input type="checkbox" id="postSafetyCheck" required class="mt-1 h-5 w-5 text-emerald-600 rounded focus:ring-emerald-500 cursor-pointer" />
+              <div class="text-xs text-slate-700">
+                <span class="font-bold text-slate-900 block text-sm">
+                  Mandatory FSSAI Food Safety Compliance Acknowledgment *
+                </span>
+                <p class="mt-1 text-slate-600 leading-relaxed">
+                  I hereby declare under FSSAI Surplus Food Handling Regulations that this food was cooked hygienically, is stored in covered food-grade vessels, is free from spoilage or contamination, and has passed sensory evaluation (sight, smell, texture).
+                </p>
+                <button type="button" onclick="openModal('safetyModal')" class="mt-2 text-emerald-700 font-bold hover:underline inline-flex items-center gap-1">
+                  <i data-lucide="info" class="w-3.5 h-3.5"></i> Read FSSAI Safety Standards
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" id="btnSubmitListing" class="w-full py-3.5 px-6 rounded-xl font-black text-white bg-emerald-700 hover:bg-emerald-800 shadow-md shadow-emerald-900/20 transition flex items-center justify-center gap-2 text-base">
+              <i data-lucide="send" class="w-5 h-5"></i>
+              Publish Surplus Listing Live (Broadcast Alert to NGOs)
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 3: DONOR MY POSTINGS & TRACKING -->
+    <section id="tab-donor-postings" class="tab-content hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">My Surplus Postings & Dispatch Tracking</h2>
+          <p class="text-xs text-slate-500">Track active claims, volunteer arrival ETAs, and verification codes for safe handover.</p>
+        </div>
+        <button onclick="switchTab('post-food')" class="px-4 py-2 rounded-lg text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 transition flex items-center gap-1.5 self-start sm:self-auto">
+          <i data-lucide="plus" class="w-4 h-4"></i> Post New Surplus Batch
+        </button>
+      </div>
+
+      <div id="donorListingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 4: NGO CLAIMS & DISPATCH TRIP PORTAL -->
+    <section id="tab-ngo-claims" class="tab-content hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Active NGO Food Relief Claims & Missions</h2>
+          <p class="text-xs text-slate-500">Manage claimed batches, volunteer transit status, and view generated dispatch slips.</p>
+        </div>
+        <button onclick="switchTab('feed')" class="px-4 py-2 rounded-lg text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 transition flex items-center gap-1.5 self-start sm:self-auto">
+          <i data-lucide="compass" class="w-4 h-4"></i> Explore Available Feeds
+        </button>
+      </div>
+
+      <div id="ngoClaimsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 5: SAFETY & COMPLIANCE HUB (FSSAI) -->
+    <section id="tab-safety-hub" class="tab-content hidden">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+        
+        <div class="bg-gradient-to-r from-emerald-800 via-teal-800 to-emerald-900 text-white p-6 sm:p-8">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="p-2 bg-white/10 rounded-lg">
+              <i data-lucide="shield-check" class="w-6 h-6 text-amber-300"></i>
+            </span>
+            <span class="text-xs uppercase tracking-widest font-bold text-amber-300">Statutory Compliance</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight">FSSAI Surplus Food Handling & Safety Hub</h2>
+          <p class="text-emerald-100 text-sm mt-1 max-w-2xl">
+            Surplus food redistribution requires uncompromising temperature discipline and hygienic containers. All donors and NGOs on Annapoorna Bridge must adhere to these guidelines.
+          </p>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-8">
+          
+          <!-- Section 1: Temperature Danger Zone -->
+          <div>
+            <h3 class="text-lg font-black text-slate-900 flex items-center gap-2 mb-3">
+              <i data-lucide="thermometer-snowflake" class="w-5 h-5 text-red-500"></i>
+              1. The Temperature Danger Zone (5°C to 60°C)
+            </h3>
+            <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+              Bacteria grow most rapidly in the range between 5°C and 60°C, doubling in number in as little as 20 minutes. Keep hot food piping hot, and chilled food ice cold.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 text-center">
+                <span class="text-2xl block mb-1">❄️</span>
+                <span class="font-black text-blue-900 text-sm">Cold Preservation</span>
+                <span class="block text-xl font-black text-blue-700 mt-1">&lt; 5°C</span>
+                <p class="text-[11px] text-blue-800 mt-1">Keep dairy, salads, and desserts in commercial chillers until pickup.</p>
+              </div>
+
+              <div class="bg-red-50 border-2 border-red-300 rounded-xl p-4 text-center">
+                <span class="text-2xl block mb-1">⚠️</span>
+                <span class="font-black text-red-900 text-sm">Danger Zone</span>
+                <span class="block text-xl font-black text-red-700 mt-1">5°C - 60°C</span>
+                <p class="text-[11px] text-red-800 mt-1">Maximum 4 hours exposure! Any cooked food in this zone must be consumed within 4 hours.</p>
+              </div>
+
+              <div class="bg-amber-50 border-2 border-amber-300 rounded-xl p-4 text-center">
+                <span class="text-2xl block mb-1">🔥</span>
+                <span class="font-black text-amber-900 text-sm">Hot Holding</span>
+                <span class="block text-xl font-black text-amber-700 mt-1">&gt; 60°C</span>
+                <p class="text-[11px] text-amber-800 mt-1">Keep curries, gravies, and biryanis in insulated thermal containers or bain-marie.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Prohibited Foods -->
+          <div>
+            <h3 class="text-lg font-black text-slate-900 flex items-center gap-2 mb-3">
+              <i data-lucide="ban" class="w-5 h-5 text-red-600"></i>
+              2. Prohibited Foods for Redistribution
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3 bg-red-50/60 rounded-lg border border-red-100 flex items-start gap-2.5">
+                <i data-lucide="x-circle" class="w-4 h-4 text-red-600 shrink-0 mt-0.5"></i>
+                <div>
+                  <span class="font-bold text-red-900">Raw Seafood & Uncooked Meat:</span>
+                  <span class="text-red-800"> Extremely high spoilage risk; strictly forbidden from redistribution.</span>
+                </div>
+              </div>
+
+              <div class="p-3 bg-red-50/60 rounded-lg border border-red-100 flex items-start gap-2.5">
+                <i data-lucide="x-circle" class="w-4 h-4 text-red-600 shrink-0 mt-0.5"></i>
+                <div>
+                  <span class="font-bold text-red-900">Cut Raw Fruits & Pre-mixed Salads:</span>
+                  <span class="text-red-800"> Salads containing mayonnaise, yogurt, or raw dressings past 2 hours.</span>
+                </div>
+              </div>
+
+              <div class="p-3 bg-red-50/60 rounded-lg border border-red-100 flex items-start gap-2.5">
+                <i data-lucide="x-circle" class="w-4 h-4 text-red-600 shrink-0 mt-0.5"></i>
+                <div>
+                  <span class="font-bold text-red-900">Reheated Food Leftovers:</span>
+                  <span class="text-red-800"> Food that has already been reheated multiple times cannot be donated.</span>
+                </div>
+              </div>
+
+              <div class="p-3 bg-red-50/60 rounded-lg border border-red-100 flex items-start gap-2.5">
+                <i data-lucide="x-circle" class="w-4 h-4 text-red-600 shrink-0 mt-0.5"></i>
+                <div>
+                  <span class="font-bold text-red-900">Swollen / Damaged Canned Goods:</span>
+                  <span class="text-red-800"> Any packaged items exhibiting bloating, rust, or puncture leaks.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Clean Transport Checklist -->
+          <div>
+            <h3 class="text-lg font-black text-slate-900 flex items-center gap-2 mb-3">
+              <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
+              3. Transport Hygiene Protocols for NGOs & Volunteers
+            </h3>
+            <ul class="space-y-2 text-xs text-slate-700">
+              <li class="flex items-center gap-2 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                Use food-grade stainless steel containers with airtight or securely latched lids.
+              </li>
+              <li class="flex items-center gap-2 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                Ensure transport vehicles are clean, sheltered from rain and direct sunlight, and sanitized daily.
+              </li>
+              <li class="flex items-center gap-2 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                Always verify the 6-character Pickup Verification Code at the venue before loading.
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: SDG IMPACT ANALYTICS -->
+    <section id="tab-impact-hub" class="tab-content hidden">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-800 text-xs font-bold">UN SDG 2 & 11 Framework</span>
+              <span class="text-xs text-slate-500">• Live Impact Ledger</span>
+            </div>
+            <h2 class="text-2xl font-black text-slate-900 tracking-tight mt-1">Platform Impact & Sustainability Metrics</h2>
+          </div>
+          <button onclick="loadAnalytics()" class="p-2 text-slate-500 hover:text-emerald-700 hover:bg-slate-100 rounded-lg transition self-start sm:self-auto">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div class="p-5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">
+            <span class="text-xs font-bold uppercase tracking-wider block text-amber-800">Total Meals Distributed</span>
+            <span id="anaMeals" class="text-3xl font-black block mt-1 text-amber-900">--</span>
+            <span class="text-[11px] text-amber-700 mt-1 block">🍛 Equivalent portions delivered</span>
+          </div>
+
+          <div class="p-5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900">
+            <span class="text-xs font-bold uppercase tracking-wider block text-emerald-800">Surplus Food Rescued</span>
+            <span id="anaKg" class="text-3xl font-black block mt-1 text-emerald-900">--</span>
+            <span class="text-[11px] text-emerald-700 mt-1 block">⚖️ Total Kilograms diverted</span>
+          </div>
+
+          <div class="p-5 rounded-xl bg-teal-50 border border-teal-200 text-teal-900">
+            <span class="text-xs font-bold uppercase tracking-wider block text-teal-800">CO₂ Emissions Avoided</span>
+            <span id="anaCo2" class="text-3xl font-black block mt-1 text-teal-900">--</span>
+            <span class="text-[11px] text-teal-700 mt-1 block">🌱 ~2.5 kg CO₂e saved per kg food</span>
+          </div>
+
+          <div class="p-5 rounded-xl bg-purple-50 border border-purple-200 text-purple-900">
+            <span class="text-xs font-bold uppercase tracking-wider block text-purple-800">Active Relief Network</span>
+            <span id="anaPartners" class="text-3xl font-black block mt-1 text-purple-900">--</span>
+            <span class="text-[11px] text-purple-700 mt-1 block">🤝 Verified Donors & NGOs</span>
+          </div>
+        </div>
+
+        <!-- Breakdown Tables -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="border border-slate-200 rounded-xl p-5">
+            <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-emerald-600"></i> City-Level Food Rescue Distribution
+            </h3>
+            <div id="anaCityBreakdown" class="space-y-2 text-xs">
+              <div class="text-slate-400">Loading city metrics...</div>
+            </div>
+          </div>
+
+          <div class="border border-slate-200 rounded-xl p-5">
+            <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+              <i data-lucide="pie-chart" class="w-4 h-4 text-amber-600"></i> Dietary Breakdown (Veg vs Non-Veg)
+            </h3>
+            <div id="anaDietaryBreakdown" class="space-y-3 text-xs">
+              <div class="text-slate-400">Loading dietary breakdown...</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 7: ADMIN HUB (Verification & Audit Ledger) -->
+    <section id="tab-admin-hub" class="tab-content hidden">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 mb-8">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded bg-purple-100 text-purple-800 text-xs font-bold">Platform Governance</span>
+              <span class="text-xs text-slate-500">• Administrator Access</span>
+            </div>
+            <h2 class="text-2xl font-black text-slate-900 tracking-tight mt-1">Partner Verification & Audit Trail</h2>
+          </div>
+          <button onclick="loadAdminData()" class="p-2 text-slate-500 hover:text-emerald-700 hover:bg-slate-100 rounded-lg transition self-start sm:self-auto">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Section A: Pending / Registered Partner Verification -->
+        <div class="mb-10">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="user-check" class="w-4 h-4 text-purple-600"></i>
+              Partner Verification Management
+            </h3>
+            <select id="adminUserFilter" onchange="loadAdminUsers()" class="text-xs border border-slate-200 rounded-lg px-2.5 py-1.5 bg-slate-50">
+              <option value="all">All Partners</option>
+              <option value="false">Pending Verification Only</option>
+              <option value="true">Verified Partners</option>
+            </select>
+          </div>
+
+          <div class="overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="min-w-full divide-y divide-slate-200 text-xs text-left">
+              <thead class="bg-slate-50 text-slate-500 font-semibold uppercase tracking-wider">
+                <tr>
+                  <th class="px-4 py-3">Organization & Contact</th>
+                  <th class="px-4 py-3">Role</th>
+                  <th class="px-4 py-3">City</th>
+                  <th class="px-4 py-3">License / Darpan ID</th>
+                  <th class="px-4 py-3">Status</th>
+                  <th class="px-4 py-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTable" class="divide-y divide-slate-100 text-slate-700">
+                <tr><td colspan="6" class="px-4 py-6 text-center text-slate-400">Loading partners...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section B: System Audit Trail / Transaction Ledger -->
+        <div>
+          <h3 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-3">
+            <i data-lucide="scroll-text" class="w-4 h-4 text-slate-600"></i>
+            Real-Time Audit Trail & Transaction Ledger
+          </h3>
+          <div class="overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="min-w-full divide-y divide-slate-200 text-xs text-left">
+              <thead class="bg-slate-50 text-slate-500 font-semibold uppercase tracking-wider">
+                <tr>
+                  <th class="px-4 py-3">Timestamp</th>
+                  <th class="px-4 py-3">Action</th>
+                  <th class="px-4 py-3">Actor & Role</th>
+                  <th class="px-4 py-3">Details</th>
+                </tr>
+              </thead>
+              <tbody id="adminAuditTable" class="divide-y divide-slate-100 text-slate-700">
+                <tr><td colspan="4" class="px-4 py-6 text-center text-slate-400">Loading audit trail...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-10 px-4 sm:px-6 lg:px-8 border-t border-slate-800 no-print">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="assets/logo.png" alt="Logo" class="h-10 w-auto brightness-90" />
+        <div>
+          <span class="text-slate-200 font-bold text-sm block">Annapoorna Bridge</span>
+          <span class="text-slate-400 text-[11px]">Connecting Surplus with Need • UN SDG 2 & SDG 11 Mission</span>
+        </div>
+      </div>
+      
+      <div class="flex flex-wrap items-center gap-4 text-slate-400 text-xs">
+        <button onclick="openModal('safetyModal')" class="hover:text-emerald-400 transition">FSSAI Safety Rules</button>
+        <span>•</span>
+        <a href="#feed" onclick="switchTab('impact-hub')" class="hover:text-emerald-400 transition">Impact Transparency</a>
+        <span>•</span>
+        <span>National Hunger Helpline: 1967</span>
+      </div>
+
+      <div class="text-slate-500 text-[11px]">
+        Built with Node.js, Express, MongoDB & Socket.io • Production Ready
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. LOGIN MODAL -->
+  <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      <div class="bg-gradient-to-r from-emerald-800 to-teal-800 text-white p-6 flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-bold">Sign In to Annapoorna Bridge</h3>
+          <p class="text-emerald-100 text-xs">Access donor postings, NGO feeds, or admin controls</p>
+        </div>
+        <button onclick="closeModal('loginModal')" class="text-emerald-200 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Email Address</label>
+          <input type="email" id="loginEmail" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Password</label>
+          <input type="password" id="loginPassword" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+        </div>
+
+        <button type="submit" class="w-full py-2.5 px-4 rounded-xl font-bold text-white bg-emerald-700 hover:bg-emerald-800 transition text-sm">
+          Sign In
+        </button>
+
+        <!-- Fast Test Account Fillers -->
+        <div class="pt-2 border-t border-slate-100">
+          <span class="text-[11px] font-bold text-slate-500 block mb-1.5">⚡ 1-Click Fast Login Test Accounts:</span>
+          <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+            <button type="button" onclick="prefillLogin('admin@annapoorna.org', 'Admin@123')" class="px-2 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded font-semibold hover:bg-purple-100">
+              Admin
+            </button>
+            <button type="button" onclick="prefillLogin('donor@grandchola.com', 'Donor@123')" class="px-2 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded font-semibold hover:bg-amber-100">
+              Donor
+            </button>
+            <button type="button" onclick="prefillLogin('ngo@rotibank.org', 'Ngo@123')" class="px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded font-semibold hover:bg-blue-100">
+              NGO
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center pt-2 text-xs text-slate-500">
+          Don't have an account? <button type="button" onclick="closeModal('loginModal'); openModal('registerModal')" class="text-emerald-700 font-bold hover:underline">Register New Venue or NGO</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. REGISTER MODAL -->
+  <div id="registerModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+      <div class="bg-gradient-to-r from-emerald-800 to-teal-800 text-white p-6 flex items-center justify-between sticky top-0 z-10">
+        <div>
+          <h3 class="text-lg font-bold">Register as Donor or NGO</h3>
+          <p class="text-emerald-100 text-xs">Join India's verified surplus food redistribution network</p>
+        </div>
+        <button onclick="closeModal('registerModal')" class="text-emerald-200 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="registerForm" onsubmit="handleRegister(event)" class="p-6 space-y-4">
+        <!-- Role selector -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Select Role *</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50">
+              <input type="radio" name="regRole" value="donor" checked onchange="toggleRegFields()" class="text-emerald-600 focus:ring-emerald-500" />
+              <div>
+                <span class="text-xs font-bold text-slate-900 block">Food Donor</span>
+                <span class="text-[10px] text-slate-500">Banquets, Halls, Hostels</span>
+              </div>
+            </label>
+            <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+              <input type="radio" name="regRole" value="ngo" onchange="toggleRegFields()" class="text-blue-600 focus:ring-blue-500" />
+              <div>
+                <span class="text-xs font-bold text-slate-900 block">Food Relief NGO</span>
+                <span class="text-[10px] text-slate-500">Charity, Community Kitchen</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Contact Person Name *</label>
+            <input type="text" id="regName" required class="w-full text-sm px-3.5 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Email Address *</label>
+            <input type="email" id="regEmail" required class="w-full text-sm px-3.5 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Organization / Venue Name *</label>
+            <input type="text" id="regOrgName" required placeholder="e.g. Royal Palace Banquets" class="w-full text-sm px-3.5 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Phone Number *</label>
+            <input type="tel" id="regPhone" required placeholder="+91 98765 43210" class="w-full text-sm px-3.5 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">City *</label>
+            <select id="regCity" required class="w-full text-sm px-3.5 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+              <option value="Chennai">Chennai</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="New Delhi">New Delhi</option>
+              <option value="Jaipur">Jaipur</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Pune">Pune</option>
+            </select>
+          </div>
+          <div>
+            <label id="regLicenseLabel" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+              FSSAI / Venue License No. *
+            </label>
+            <input type="text" id="regLicenseId" required placeholder="e.g. FSSAI-12345678901234" class="w-full text-sm px-3.5 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Full Physical Address *</label>
+          <input type="text" id="regAddress" required placeholder="Door/Plot No., Street, Landmark" class="w-full text-sm px-3.5 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Password (min 6 characters) *</label>
+          <input type="password" id="regPassword" required minlength="6" class="w-full text-sm px-3.5 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+        </div>
+
+        <button type="submit" class="w-full py-2.5 px-4 rounded-xl font-bold text-white bg-emerald-700 hover:bg-emerald-800 transition text-sm">
+          Complete Registration
+        </button>
+
+        <div class="text-center pt-2 text-xs text-slate-500">
+          Already registered? <button type="button" onclick="closeModal('registerModal'); openModal('loginModal')" class="text-emerald-700 font-bold hover:underline">Sign In here</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. NGO CLAIM MODAL (Assign Volunteer & ETA) -->
+  <div id="claimModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-5 flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-bold">Claim Surplus Food Batch</h3>
+          <p class="text-blue-100 text-xs">Assign pickup volunteer & dispatch slip generation</p>
+        </div>
+        <button onclick="closeModal('claimModal')" class="text-blue-200 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="claimForm" onsubmit="submitClaim(event)" class="p-5 space-y-3.5">
+        <input type="hidden" id="claimListingId" />
+
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-900">
+          <span class="font-bold block" id="claimFoodTitlePreview">Title</span>
+          <span class="text-blue-700" id="claimQuantityPreview">Quantity</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Pickup Volunteer Name *</label>
+          <input type="text" id="claimVolunteerName" required placeholder="e.g. Rahul Shinde" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Volunteer Phone *</label>
+            <input type="tel" id="claimVolunteerPhone" required placeholder="+91 98201 12345" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Vehicle / Reg No. *</label>
+            <input type="text" id="claimVehicle" required placeholder="e.g. MH-02-CB-4491 (Van)" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Estimated Arrival Time (ETA) *</label>
+          <select id="claimEtaMinutes" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <option value="15">Within 15 Minutes</option>
+            <option value="30" selected>Within 30 Minutes</option>
+            <option value="45">Within 45 Minutes</option>
+            <option value="60">Within 1 Hour</option>
+          </select>
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full py-2.5 px-4 rounded-xl font-bold text-white bg-blue-700 hover:bg-blue-800 transition text-xs flex items-center justify-center gap-1.5 shadow-md">
+            <i data-lucide="check" class="w-4 h-4"></i> Confirm Atomic Claim & Generate Dispatch Slip
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. PICKUP DISPATCH SLIP MODAL (Printable) -->
+  <div id="dispatchSlipModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full max-h-[95vh] overflow-y-auto">
+      
+      <!-- Slip Header -->
+      <div class="bg-gradient-to-r from-emerald-800 to-teal-800 text-white p-5 flex items-center justify-between no-print">
+        <div class="flex items-center gap-2">
+          <i data-lucide="printer" class="w-5 h-5 text-amber-300"></i>
+          <span class="font-bold text-sm">Pickup Dispatch Slip Generated</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.print()" class="px-2.5 py-1 rounded bg-white/20 hover:bg-white/30 text-xs font-bold flex items-center gap-1">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print Slip
+          </button>
+          <button onclick="closeModal('dispatchSlipModal')" class="text-white hover:text-emerald-200 p-1">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Slip Printable Body -->
+      <div id="dispatchSlipContent" class="p-6 text-slate-800 text-xs space-y-4">
+        <!-- Rendered dynamically via JS -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. FSSAI SAFETY MODAL -->
+  <div id="safetyModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <i data-lucide="shield-alert" class="w-5 h-5 text-emerald-600"></i>
+          FSSAI Surplus Food Guidelines
+        </h3>
+        <button onclick="closeModal('safetyModal')" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+        <p><strong>1. Golden 4-Hour Rule:</strong> Cooked food held between 5°C and 60°C must be distributed and consumed within 4 hours of cooking.</p>
+        <p><strong>2. Temperature Maintenance:</strong> Hot foods must be stored at &gt;60°C in food-grade insulated warmers. Cold desserts and dairy must be maintained below 5°C.</p>
+        <p><strong>3. Sensory Inspection:</strong> Donors and NGOs must visually inspect food for discoloration, abnormal odor, or texture souring prior to handover.</p>
+        <p><strong>4. Vessel Protocol:</strong> Only clean, sanitized stainless steel vessels or food-grade sealed cartons can be used for transit.</p>
+      </div>
+      <div class="mt-6 text-right">
+        <button onclick="closeModal('safetyModal')" class="px-4 py-2 bg-emerald-700 text-white font-bold rounded-lg text-xs">
+          Understood & Acknowledged
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm pointer-events-none no-print"></div>
+
+  <!-- Audio Element for Sound Chimes (Base64 Web Audio API synthesis used in js) -->
+
+  <!-- Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/socket.js"></script>
+  <script src="js/donor.js"></script>
+  <script src="js/ngo.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

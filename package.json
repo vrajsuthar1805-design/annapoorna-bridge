@@ -1,0 +1,37 @@
+{
+  "name": "annapoorna-bridge",
+  "version": "1.0.0",
+  "description": "Annapoorna Bridge: Real-time surplus food redistribution platform targeting UN SDG 2 (Zero Hunger) & SDG 11 (Sustainable Cities & Communities)",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "seed": "node server/seed.js"
+  },
+  "keywords": [
+    "food-waste",
+    "zero-hunger",
+    "sdg2",
+    "sdg11",
+    "fssai",
+    "ngo",
+    "surplus-food",
+    "real-time"
+  ],
+  "author": "Annapoorna Bridge Team",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.3.0",
+    "morgan": "^1.10.1",
+    "multer": "^2.1.1",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^11.3.0"
+  }
+}
