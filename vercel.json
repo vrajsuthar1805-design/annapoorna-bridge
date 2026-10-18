@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "dataset/**"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/dashboard-donor",
+      "destination": "/frontend/dashboard-donor.html"
+    },
+    {
+      "source": "/dashboard-ngo",
+      "destination": "/frontend/dashboard-ngo.html"
+    },
+    {
+      "source": "/dashboard-admin",
+      "destination": "/frontend/dashboard-admin.html"
+    },
+    {
+      "source": "/safety-hub",
+      "destination": "/frontend/safety-hub.html"
+    },
+    {
+      "source": "/",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/$1"
+    }
+  ]
+}
