@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Roti Bank Mumbai Foundation",
+    "email": "ngo.rotibank@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "ngo",
+    "phone": "+91 86555 80001",
+    "city": "Mumbai",
+    "address": "Opp. Railway Station, Dadar West, Mumbai, Maharashtra 400028",
+    "isVerified": true,
+    "ngoDetails": {
+      "darpanId": "MH/2018/0192834",
+      "trustRegNo": "F-44912/Mumbai",
+      "volunteersCount": 140,
+      "refrigeratedVans": 3,
+      "servingCapacityPerDay": 2500
+    }
+  },
+  {
+    "name": "Robin Hood Army Bengaluru Chapter",
+    "email": "ngo.robinhood@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "ngo",
+    "phone": "+91 99000 11223",
+    "city": "Bengaluru",
+    "address": "Indiranagar 100ft Road, Bengaluru, Karnataka 560038",
+    "isVerified": true,
+    "ngoDetails": {
+      "darpanId": "KA/2019/0231940",
+      "trustRegNo": "IV-102/2019",
+      "volunteersCount": 350,
+      "refrigeratedVans": 2,
+      "servingCapacityPerDay": 4000
+    }
+  },
+  {
+    "name": "Feeding India (Delhi NCR)",
+    "email": "ngo.feedingindia@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "ngo",
+    "phone": "+91 98100 88990",
+    "city": "New Delhi",
+    "address": "Community Center, Saket, New Delhi 110017",
+    "isVerified": true,
+    "ngoDetails": {
+      "darpanId": "DL/2017/0187421",
+      "trustRegNo": "DEL-TR-8819",
+      "volunteersCount": 210,
+      "refrigeratedVans": 4,
+      "servingCapacityPerDay": 3500
+    }
+  },
+  {
+    "name": "No Food Waste Foundation",
+    "email": "ngo.nofoodwaste@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "ngo",
+    "phone": "+91 97890 12345",
+    "city": "Chennai",
+    "address": "Anna Nagar West Extension, Chennai, Tamil Nadu 600101",
+    "isVerified": true,
+    "ngoDetails": {
+      "darpanId": "TN/2020/0289134",
+      "trustRegNo": "BK-IV/332",
+      "volunteersCount": 95,
+      "refrigeratedVans": 1,
+      "servingCapacityPerDay": 1800
+    }
+  },
+  {
+    "name": "Annapoorna Seva Samiti Pune",
+    "email": "ngo.pune@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "ngo",
+    "phone": "+91 98230 44556",
+    "city": "Pune",
+    "address": "Shivaji Nagar, Pune, Maharashtra 411005",
+    "isVerified": false,
+    "ngoDetails": {
+      "darpanId": "MH/2022/0394812",
+      "trustRegNo": "PUN-3310-TR",
+      "volunteersCount": 45,
+      "refrigeratedVans": 1,
+      "servingCapacityPerDay": 800
+    }
+  }
+]

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NGO Relief Portal | Annapoorna Bridge</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Demo Bar -->
+  <div class="demo-bar">
+    <div class="container">
+      <div>
+        <span>🚚 <strong>NGO Relief Portal:</strong> Real-time Surplus Food Claiming &amp; Distribution</span>
+      </div>
+      <div class="demo-quick-buttons">
+        <button class="btn-demo" onclick="quickDemoLogin('donor')">Switch to Donor 🏢</button>
+        <button class="btn-demo" onclick="quickDemoLogin('admin')">Switch to Admin 🛡️</button>
+        <button class="btn-demo" onclick="Auth.logout()">Log Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-link">
+        <img src="assets/logo.svg" alt="Annapoorna Bridge Logo" class="brand-logo-img">
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard-ngo.html" class="active">Surplus Alert Feed</a></li>
+        <li><a href="safety-hub.html">Safety Guidelines</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="user-menu-pill">
+          <span id="ngoOrgName">Loading NGO...</span>
+          <span class="role-badge role-ngo">NGO</span>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="Auth.logout()">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Real-time incoming listing alert banner -->
+  <div id="newAlertBanner" style="display: none; background: #ef4444; color: #fff; text-align: center; padding: 12px; font-weight: 700; font-size: 0.95rem; animation: pulse-red 1.6s infinite;">
+    ⚡ Live Alert: New surplus food posted in your city!
+  </div>
+
+  <!-- Main Portal -->
+  <main class="dashboard-page">
+    <div class="container">
+
+      <!-- Header & Stats -->
+      <div class="dashboard-header">
+        <div class="dash-title-group">
+          <h1>City Surplus Food Alert Network</h1>
+          <p>
+            City Base: <strong id="ngoCity">...</strong> &nbsp;|&nbsp;
+            <span id="ngoDarpanBadge" style="background: #dcfce7; padding: 2px 8px; border-radius: 4px; font-weight: 700; color: #15803d;">Darpan Verified</span>
+          </p>
+        </div>
+
+        <div class="dashboard-actions">
+          <div style="background: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; display: flex; gap: 20px;">
+            <div>
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Available Alerts:</span>
+              <strong id="ngoAvailableCount" style="color: var(--primary); font-size: 1.1rem; margin-left: 6px;">0</strong>
+            </div>
+            <div style="border-left: 1px solid var(--border); padding-left: 16px;">
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Active Missions:</span>
+              <strong id="ngoActiveMissionsCount" style="color: var(--secondary); font-size: 1.1rem; margin-left: 6px;">0</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-Time Filters Bar -->
+      <div style="background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; box-shadow: var(--shadow-sm); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: #475569;">📍 City:</label>
+            <select id="filterCity" class="form-control" style="width: auto; padding: 6px 12px;">
+              <option value="all">All Indian Cities</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="New Delhi">New Delhi</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Pune">Pune</option>
+            </select>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: #475569;">🥗 Dietary:</label>
+            <select id="filterDietary" class="form-control" style="width: auto; padding: 6px 12px;">
+              <option value="all">All Food</option>
+              <option value="Veg">Pure Veg</option>
+              <option value="Non-Veg">Non-Veg</option>
+            </select>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" id="filterUrgentOnly" style="cursor: pointer;">
+            <label for="filterUrgentOnly" style="font-size: 0.85rem; font-weight: 700; color: #dc2626; cursor: pointer;">
+              🚨 Urgent Only (&lt; 2h left)
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <button class="btn btn-outline btn-sm" onclick="loadSurplusFeed()">🔄 Refresh Alerts</button>
+        </div>
+      </div>
+
+      <!-- Available Listings Grid -->
+      <section style="margin-bottom: 40px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--dark);">Live Surplus Food Alerts</h2>
+            <p style="font-size: 0.85rem; color: #64748b;">Click "Claim &amp; Dispatch" to atomically lock a batch, assign a courier, and generate a pickup slip.</p>
+          </div>
+        </div>
+
+        <div id="ngoFeedGrid" class="grid-3">
+          <!-- Live listings populated dynamically -->
+        </div>
+      </section>
+
+      <!-- Claimed & Active Missions Section -->
+      <section>
+        <div style="margin-bottom: 16px;">
+          <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--dark);">Claimed &amp; In-Transit Rescue Missions</h2>
+          <p style="font-size: 0.85rem; color: #64748b;">Manage assigned volunteers, print digital dispatch slips, and update transit tracking.</p>
+        </div>
+
+        <div id="claimedMissionsGrid" class="grid-2">
+          <!-- Claimed listings populated dynamically -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Claim & Volunteer Assignment Modal -->
+  <div id="claimModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeClaimModal()">✕</button>
+
+      <div style="margin-bottom: 20px;">
+        <span style="font-size: 0.75rem; font-weight: 700; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px;">
+          ATOMIC LOCK PROTECTED
+        </span>
+        <h2 style="color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 6px;">Claim Food Batch &amp; Dispatch Pickup</h2>
+        <p style="font-size: 0.88rem; color: #64748b;">Assign your volunteer and transport mode. This will instantaneously reserve the batch.</p>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 20px;">
+        <div style="font-size: 0.8rem; color: #64748b;">Selected Batch:</div>
+        <div id="claimBatchCode" style="font-weight: 800; color: #1e3a8a;">AB-2026-XXX</div>
+        <div id="claimFoodTitle" style="font-size: 0.95rem; font-weight: 600; color: #0f172a; margin-top: 2px;">Food Title</div>
+      </div>
+
+      <form id="claimForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Assigned Volunteer Name *</label>
+            <input type="text" id="claimVolunteerName" class="form-control" placeholder="e.g., Amit Shinde" required>
+          </div>
+          <div class="form-group">
+            <label>Volunteer Contact Phone *</label>
+            <input type="tel" id="claimVolunteerPhone" class="form-control" placeholder="+91 98765 43210" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Vehicle / Transport Mode *</label>
+            <input type="text" id="claimVehicleNumber" class="form-control" placeholder="e.g., Insulated Relief Van / KA-05-AB-1234" required>
+          </div>
+          <div class="form-group">
+            <label>Estimated Pickup ETA *</label>
+            <input type="text" id="claimEta" class="form-control" placeholder="Within 30 minutes" required>
+          </div>
+        </div>
+
+        <div class="fssai-box" style="margin-top: 10px;">
+          <div class="fssai-box-title">
+            <span>🚚 Safe Transport Protocol Commitment</span>
+          </div>
+          <p style="font-size: 0.82rem; color: #15803d; line-height: 1.4;">
+            As a verified NGO, you agree to transport this food in covered, clean containers, avoid prolonged direct heat exposure, and distribute directly to beneficiaries before the safe consumption deadline.
+          </p>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn btn-outline" onclick="closeClaimModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm Claim &amp; Generate Dispatch Slip ➔</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Digital Pickup Dispatch Slip Modal -->
+  <div id="dispatchSlipModal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 720px;">
+      <button class="modal-close-btn no-print" onclick="document.getElementById('dispatchSlipModal').classList.remove('active')">✕</button>
+      <div id="dispatchSlipContent">
+        <!-- Injected dynamically via ngo.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/socket.js"></script>
+  <script src="js/ngo.js"></script>
+</body>
+</html>

@@ -1,37 +1,36 @@
 {
   "name": "annapoorna-bridge",
   "version": "1.0.0",
-  "description": "Annapoorna Bridge: Real-time surplus food redistribution platform targeting UN SDG 2 (Zero Hunger) & SDG 11 (Sustainable Cities & Communities)",
+  "description": "Annapoorna Bridge - Real-time Surplus Food Redistribution Network connecting Event Managers & Hostels with Food-Relief NGOs (UN SDG 2 & SDG 11)",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
     "dev": "node server/server.js",
-    "seed": "node server/seed.js"
+    "seed": "node dataset/seed.js",
+    "test": "node --test"
   },
   "keywords": [
-    "food-waste",
+    "food-waste-reduction",
     "zero-hunger",
-    "sdg2",
-    "sdg11",
+    "sdg-2",
+    "sdg-11",
     "fssai",
-    "ngo",
-    "surplus-food",
-    "real-time"
+    "ngo-food-relief",
+    "real-time",
+    "socket.io",
+    "express",
+    "annapoorna-bridge"
   ],
   "author": "Annapoorna Bridge Team",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "bcryptjs": "^3.0.3",
+    "@supabase/supabase-js": "^2.118.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.3.0",
-    "morgan": "^1.10.1",
-    "multer": "^2.1.1",
-    "socket.io": "^4.8.3"
-  },
-  "devDependencies": {
-    "mongodb-memory-server": "^11.3.0"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "socket.io": "^4.8.1"
   }
 }

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annapoorna Bridge | Zero Hunger Surplus Food Redistribution Network (UN SDG 2 & 11)</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Demo Bar for One-Click Local Testing -->
+  <div class="demo-bar">
+    <div class="container">
+      <div>
+        <span>⚡ <strong>Quick Test Portal:</strong> Click any demo role to log in instantly &amp; test live:</span>
+      </div>
+      <div class="demo-quick-buttons">
+        <button class="btn-demo" onclick="quickDemoLogin('donor')">🏢 Test as Donor (Banquet)</button>
+        <button class="btn-demo" onclick="quickDemoLogin('ngo')">🚚 Test as NGO (Robin Hood Army)</button>
+        <button class="btn-demo" onclick="quickDemoLogin('ngo_mumbai')">🍲 Test as NGO (Roti Bank)</button>
+        <button class="btn-demo" onclick="quickDemoLogin('admin')">🛡️ Test as Platform Admin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-link">
+        <img src="assets/logo.svg" alt="Annapoorna Bridge Logo" class="brand-logo-img">
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="dashboard-ngo.html">Live Feed</a></li>
+        <li><a href="safety-hub.html">Food Safety &amp; FSSAI</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#partners">Verified Partners</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- Auth state (Logged out) -->
+        <div id="navAuthActions" style="display: flex; gap: 8px;">
+          <button class="btn btn-outline btn-sm" onclick="openAuthModal('login')">Sign In</button>
+          <button class="btn btn-primary btn-sm" onclick="openAuthModal('register-donor')">Register as Donor / NGO</button>
+        </div>
+
+        <!-- Auth state (Logged in) -->
+        <div id="navUserActions" style="display: none; align-items: center; gap: 10px;">
+          <a id="navDashboardLink" href="dashboard-donor.html" class="btn btn-primary btn-sm">Command Center ➔</a>
+          <div class="user-menu-pill">
+            <span id="navUserName">User Name</span>
+            <span id="navUserRole" class="role-badge role-donor">DONOR</span>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="Auth.logout()">Log Out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-badge-pill">
+          <span>🌿 UN SDG 2 (Zero Hunger) &amp; UN SDG 11 (Sustainable Cities)</span>
+        </div>
+        <h1 class="hero-title">
+          Bridging Surplus Food to <span>Hungry Communities</span> in Real-Time
+        </h1>
+        <p class="hero-desc">
+          Annapoorna Bridge connects Indian marriage halls, banquet lawns, and campus hostels with verified local food-relief NGOs within minutes of surplus detection. Zero waste. Full FSSAI compliance. Complete cold-chain &amp; thermal accountability.
+        </p>
+
+        <div class="hero-cta-group">
+          <button class="btn btn-secondary btn-lg" onclick="openAuthModal('register-donor')">
+            🍲 Post Surplus Food as Donor
+          </button>
+          <a href="dashboard-ngo.html" class="btn btn-outline btn-lg" style="color: #fff; border-color: rgba(255,255,255,0.4);">
+            🚚 Claim Surplus as NGO
+          </a>
+          <a href="safety-hub.html" class="btn btn-outline btn-lg" style="color: #fef08a; border-color: rgba(254,240,138,0.4);">
+            🛡️ Safety &amp; FSSAI Hub
+          </a>
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(12px); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-xl);">
+          <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #fde047; margin-bottom: 12px;">
+            ⚡ LIVE DISPATCH RADAR
+          </div>
+          <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&auto=format&fit=crop&q=80" alt="Food Relief In Action" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+          <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">
+            Automated Safe Window Sentinel Active
+          </div>
+          <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 4px;">
+            Food batches monitored in real-time under FSSAI 4-hour safety guidelines
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Impact Counters Strip -->
+  <div class="container">
+    <div class="impact-counters">
+      <div class="counter-grid">
+        <div class="counter-card">
+          <div class="counter-value" id="statKgRescued">0</div>
+          <div class="counter-label">Kg Food Rescued</div>
+          <div class="counter-sub">Nutritious surplus redistributed</div>
+        </div>
+        <div class="counter-card">
+          <div class="counter-value" id="statMealsServed" style="color: #d97706;">0</div>
+          <div class="counter-label">Meals Served</div>
+          <div class="counter-sub">UN SDG 2 Zero Hunger impact</div>
+        </div>
+        <div class="counter-card">
+          <div class="counter-value" id="statCo2Diverted" style="color: #059669;">0</div>
+          <div class="counter-label">Kg CO₂ Diverted</div>
+          <div class="counter-sub">Methane emissions prevented</div>
+        </div>
+        <div class="counter-card">
+          <div class="counter-value" id="statVerifiedNgos" style="color: #0284c7;">0</div>
+          <div class="counter-label">Verified NGO Partners</div>
+          <div class="counter-sub">NITI Aayog Darpan registered</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Rescues Marquee Ticker -->
+  <div class="live-ticker-strip">
+    <div class="container" style="display: flex; align-items: center; gap: 14px;">
+      <span class="live-pulse-badge">🔴 LIVE DISPATCH</span>
+      <div class="ticker-content" id="liveTickerTrack">
+        <span>Connecting to live Pan-India redistribution feed...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- How It Works Section -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">RAPID REDISTRIBUTION PIPELINE</span>
+        <h2 class="section-title">How Annapoorna Bridge Works</h2>
+        <p class="section-desc">Designed specifically for Indian wedding buffets, catering banquets, and campus messes where surplus food is hot, perishable, and needs safe redistribution within hours.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Donor Posts Surplus</h3>
+          <p>Event manager or hostel supervisor inputs estimated portion count, cooked timestamp, and accepts mandatory FSSAI food safety checklist.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Local NGO Claims &amp; Dispatches</h3>
+          <p>Nearby verified NGOs receive instant push alerts. One-click claim assigns pick-up volunteers and generates digital dispatch slip with donor contact and OTP.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Safe Distribution &amp; Audit</h3>
+          <p>Courier verifies handoff via OTP, maintains covered transit, and delivers food to shelters or community kitchens before the safe window expires.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Feed Preview Section -->
+  <section class="section" style="background: #ffffff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">REAL-TIME CITY FEED</span>
+        <h2 class="section-title">Active Surplus Food Alerts</h2>
+        <p class="section-desc">Live surplus postings from event venues awaiting verified NGO claim across Indian metropolitan hubs.</p>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+        <a href="dashboard-ngo.html" class="btn btn-primary">Open Full NGO Claiming Portal ➔</a>
+      </div>
+
+      <div id="ngoFeedGrid" class="grid-3">
+        <!-- Feed listings populated dynamically via API -->
+      </div>
+    </div>
+  </section>
+
+  <!-- UN SDG Alignment Banner -->
+  <section class="section" style="background: linear-gradient(135deg, #fef3c7 0%, #dcfce7 100%);">
+    <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+      <div>
+        <span class="section-tag" style="color: #b45309;">GLOBAL GOALS FOR SUSTAINABLE DEVELOPMENT</span>
+        <h2 class="section-title" style="margin-bottom: 16px;">Targeting UN SDG 2 &amp; SDG 11</h2>
+        <p style="color: #475569; font-size: 1.05rem; line-height: 1.6; margin-bottom: 16px;">
+          India wastes an estimated <strong>68 million tonnes of food</strong> annually while millions experience nutritional insufficiency. Annapoorna Bridge operationalizes <strong>SDG 2 (Zero Hunger)</strong> and <strong>SDG 11 (Sustainable Cities)</strong> by transforming post-event waste into community sustenance while cutting greenhouse gas emissions.
+        </p>
+        <ul style="list-style: none; font-size: 0.95rem; color: #1e293b; display: flex; flex-direction: column; gap: 8px;">
+          <li>🌾 <strong>SDG 2.1:</strong> Universal access to safe and nutritious food.</li>
+          <li>🏙️ <strong>SDG 11.6:</strong> Reducing per-capita urban environmental impact by diverting landfill waste.</li>
+          <li>📜 <strong>FSSAI 2019:</strong> Full compliance with national surplus food recovery protocols.</li>
+        </ul>
+      </div>
+
+      <div style="background: #fff; padding: 30px; border-radius: 18px; box-shadow: var(--shadow-lg); border: 1px solid var(--border);">
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 14px;">The Math of Food Rescue</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.95rem;">
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+            <span>1 kg Surplus Food</span>
+            <strong style="color: #15803d;">≈ 2 to 3 Nutritious Meals</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+            <span>1 kg Diverted from Landfill</span>
+            <strong style="color: #059669;">≈ 2.5 kg CO₂e Diverted</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+            <span>Embodied Water Conserved</span>
+            <strong style="color: #0284c7;">≈ 290 Liters / kg</strong>
+          </div>
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+          <a href="safety-hub.html" class="btn btn-outline" style="width: 100%;">View Food Safety Regulations</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verified Partners Section -->
+  <section class="section" id="partners">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">VERIFIED RELIEF ECOSYSTEM</span>
+        <h2 class="section-title">Trusted NGO Networks &amp; Donors</h2>
+        <p class="section-desc">Bridging verified Darpan-registered food-relief organizations with leading convention halls and institutions across India.</p>
+      </div>
+
+      <div class="grid-4">
+        <div style="background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-size: 1.8rem; margin-bottom: 10px;">🍲</div>
+          <h4 style="font-weight: 700;">Roti Bank Foundation</h4>
+          <p style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Mumbai &amp; Maharashtra</p>
+          <span style="display: inline-block; margin-top: 10px; font-size: 0.72rem; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px; font-weight: 700;">DARPAN VERIFIED</span>
+        </div>
+
+        <div style="background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-size: 1.8rem; margin-bottom: 10px;">🚚</div>
+          <h4 style="font-weight: 700;">Robin Hood Army</h4>
+          <p style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Bengaluru Chapter</p>
+          <span style="display: inline-block; margin-top: 10px; font-size: 0.72rem; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px; font-weight: 700;">DARPAN VERIFIED</span>
+        </div>
+
+        <div style="background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-size: 1.8rem; margin-bottom: 10px;">🍱</div>
+          <h4 style="font-weight: 700;">Feeding India</h4>
+          <p style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Delhi NCR Network</p>
+          <span style="display: inline-block; margin-top: 10px; font-size: 0.72rem; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px; font-weight: 700;">DARPAN VERIFIED</span>
+        </div>
+
+        <div style="background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-size: 1.8rem; margin-bottom: 10px;">🌱</div>
+          <h4 style="font-weight: 700;">No Food Waste</h4>
+          <p style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Chennai &amp; Coimbatore</p>
+          <span style="display: inline-block; margin-top: 10px; font-size: 0.72rem; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px; font-weight: 700;">DARPAN VERIFIED</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: #0f172a; color: #94a3b8; padding: 50px 0 30px 0; font-size: 0.9rem;">
+    <div class="container" style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; margin-bottom: 40px;">
+      <div>
+        <img src="assets/logo.svg" alt="Annapoorna Bridge" style="height: 48px; filter: brightness(0) invert(1); margin-bottom: 14px;">
+        <p style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.6; max-width: 420px;">
+          Annapoorna Bridge is a non-profit real-time technology initiative dedicated to ending urban hunger, enforcing hygienic food redistribution, and reducing carbon emissions across Indian cities.
+        </p>
+      </div>
+      <div>
+        <h4 style="color: #fff; font-size: 1rem; margin-bottom: 14px; font-weight: 700;">Quick Portals</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+          <li><a href="dashboard-donor.html" style="color: #94a3b8;">Donor Command Center</a></li>
+          <li><a href="dashboard-ngo.html" style="color: #94a3b8;">NGO Surplus Feed &amp; Claims</a></li>
+          <li><a href="dashboard-admin.html" style="color: #94a3b8;">Admin Governance Portal</a></li>
+          <li><a href="safety-hub.html" style="color: #94a3b8;">FSSAI Compliance Hub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color: #fff; font-size: 1rem; margin-bottom: 14px; font-weight: 700;">Support &amp; Compliance</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+          <li>National Food Safety Standards (FSSAI 2019)</li>
+          <li>NITI Aayog Darpan NGO Protocol</li>
+          <li>Email: <span style="color: #fde047;">support@annapoornabridge.org</span></li>
+          <li>Toll Free Relief Helpline: 1800-FOOD-SAFE</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container" style="border-top: 1px solid #1e293b; padding-top: 20px; display: flex; justify-content: space-between; font-size: 0.8rem;">
+      <div>© 2026 Annapoorna Bridge. All rights reserved. Open-source humanitarian technology.</div>
+      <div>Aligned with UN Sustainable Development Goals 2 &amp; 11</div>
+    </div>
+  </footer>
+
+  <!-- Auth Modal (Login & Registration) -->
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeAuthModal()">✕</button>
+
+      <div class="tabs-nav">
+        <button class="tab-btn auth-tab-btn active" data-tab="login" onclick="switchAuthTab('login')">Sign In</button>
+        <button class="tab-btn auth-tab-btn" data-tab="register-donor" onclick="switchAuthTab('register-donor')">Register Donor</button>
+        <button class="tab-btn auth-tab-btn" data-tab="register-ngo" onclick="switchAuthTab('register-ngo')">Register NGO</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" class="auth-form active" onsubmit="handleLoginSubmit(event)">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="e.g., donor.chola@annapoornabridge.org" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Sign In to Annapoorna Bridge</button>
+
+        <div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 0.8rem; color: #64748b; text-align: center;">
+          Looking for quick demo access? Use the quick test buttons on the top bar!
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form id="form-register-donor" class="auth-form" style="display: none;" onsubmit="handleRegisterSubmit(event)">
+        <input type="hidden" id="regRole" value="donor">
+
+        <div class="form-group">
+          <label>Organization / Venue Name</label>
+          <input type="text" id="regName" class="form-control" placeholder="e.g., Shagun Wedding Banquets" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="regEmail" class="form-control" placeholder="admin@shagunbanquets.com" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="regPassword" class="form-control" placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Contact Phone</label>
+            <input type="tel" id="regPhone" class="form-control" placeholder="+91 98450 12345" required>
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <select id="regCity" class="form-control" required>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="New Delhi">New Delhi</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Pune">Pune</option>
+              <option value="Kolkata">Kolkata</option>
+              <option value="Ahmedabad">Ahmedabad</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Full Address / Location</label>
+          <textarea id="regAddress" class="form-control" rows="2" placeholder="Street, Locality, Landmark, Pincode" required></textarea>
+        </div>
+
+        <!-- Donor Extra Fields -->
+        <div id="donorExtraFields">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Venue Type</label>
+              <select id="regDonorType" class="form-control">
+                <option value="Marriage Hall / Banquet">Marriage Hall / Banquet</option>
+                <option value="Hostel / Campus Mess">Hostel / Campus Mess</option>
+                <option value="Corporate Tech-Park Canteen">Corporate Tech-Park Canteen</option>
+                <option value="Hotel / Restaurant">Hotel / Restaurant</option>
+                <option value="Catering Service">Catering Service</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>FSSAI / Venue License No.</label>
+              <input type="text" id="regLicense" class="form-control" placeholder="FSSAI-2024-XXXX">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Responsible Contact Person</label>
+            <input type="text" id="regContactPerson" class="form-control" placeholder="Catering Manager / Venue Owner">
+          </div>
+        </div>
+
+        <!-- NGO Extra Fields -->
+        <div id="ngoExtraFields" style="display: none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label>NITI Aayog Darpan ID</label>
+              <input type="text" id="regDarpanId" class="form-control" placeholder="e.g., KA/2020/0289134">
+            </div>
+            <div class="form-group">
+              <label>Society / Trust Registration No.</label>
+              <input type="text" id="regTrustReg" class="form-control" placeholder="e.g., F-44912/Mumbai">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Daily Relief Serving Capacity (Meals)</label>
+            <input type="number" id="regCapacity" class="form-control" placeholder="1000">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Register &amp; Join Network</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/socket.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadImpactMetrics();
+      // Load public live feed snippet
+      try {
+        const res = await apiRequest('/listings?status=available');
+        if (res.success && res.listings.length > 0) {
+          const container = document.getElementById('ngoFeedGrid');
+          if (container) {
+            container.innerHTML = res.listings.slice(0, 3).map(item => {
+              const cd = calculateRemaining(item.safeUntil);
+              return `
+                <div class="listing-card ${cd.urgent ? 'urgent-border' : ''}">
+                  <div class="listing-img-wrap">
+                    <img src="${item.imageUrl || 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80'}" class="listing-img">
+                    <div class="listing-badges">
+                      <span class="diet-badge diet-${item.dietaryType.toLowerCase()}">${item.dietaryType}</span>
+                      <span class="status-badge status-${item.status}">${item.status}</span>
+                    </div>
+                    <div class="countdown-badge ${cd.urgent ? 'urgent' : ''}">⏱️ ${cd.text}</div>
+                  </div>
+                  <div class="listing-body">
+                    <h3 class="listing-title">${item.foodTitle}</h3>
+                    <div class="listing-meta"><span>📍 ${item.city}</span> <span>🏛️ ${item.donorName}</span></div>
+                    <div class="listing-qty-strip">
+                      <div class="qty-stat"><strong>${item.estimatedQuantityKg} kg</strong><span>Quantity</span></div>
+                      <div class="qty-stat"><strong>~${item.estimatedPlates}</strong><span>Plates</span></div>
+                      <div class="qty-stat"><strong>${item.storageCondition.split(' ')[0]}</strong><span>Condition</span></div>
+                    </div>
+                    <div class="listing-footer">
+                      <span style="font-size: 0.8rem; color: #166534; font-weight: 600;">🛡️ FSSAI Compliant</span>
+                      <a href="dashboard-ngo.html" class="btn btn-primary btn-sm">Claim as NGO ➔</a>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('');
+          }
+        }
+      } catch (err) {}
+    });
+  </script>
+</body>
+</html>

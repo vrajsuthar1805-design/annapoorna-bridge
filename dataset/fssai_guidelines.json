@@ -1,0 +1,41 @@
+{
+  "authority": "Food Safety and Standards Authority of India (FSSAI)",
+  "regulation": "Food Safety and Standards (Recovery and Distribution of Surplus Food) Regulations, 2019",
+  "temperature_rules": [
+    {
+      "category": "Hot Cooked Food",
+      "requirement": "Must be maintained above 60°C (140°F) during storage and transit, or consumed within 4 hours of preparation if kept at ambient temperature.",
+      "critical_limit": "> 60°C or within 4 hours"
+    },
+    {
+      "category": "Chilled / Perishable Food",
+      "requirement": "Must be rapidly cooled and maintained at or below 5°C (41°F) to prevent pathogen proliferation.",
+      "critical_limit": "≤ 5°C"
+    },
+    {
+      "category": "Frozen Surplus Food",
+      "requirement": "Must be kept at or below -18°C (0°F) with no signs of thawing and refreezing.",
+      "critical_limit": "≤ -18°C"
+    }
+  ],
+  "prohibited_high_risk_items": [
+    "Uncooked seafood, raw meats, and poultry",
+    "Unpasteurized dairy products and raw milk",
+    "Food kept at ambient temperature exceeding 4 hours post-cooking",
+    "Canned foods showing bulging, dents, or leakage",
+    "Pre-cut fruits (melons, papaya) held at room temperature beyond 2 hours",
+    "Food handled with bare hands or showing foul odor, rancidity, or fungal growth"
+  ],
+  "mandatory_checklist": [
+    "Food has been prepared in a clean, hygienic kitchen compliant with FSSAI standards.",
+    "Food has been covered and shielded from dust, pests, and environmental contamination.",
+    "Prepared food has not exceeded the 4-hour ambient threshold.",
+    "Food is packed in clean, food-grade non-toxic stainless steel or virgin plastic containers.",
+    "Donor acknowledges accurate description of veg/non-veg and preparation timestamp."
+  ],
+  "sdg_impact_conversion": {
+    "meals_per_kg": 2.5,
+    "co2_saved_kg_per_food_kg": 2.5,
+    "water_saved_liters_per_food_kg": 290
+  }
+}

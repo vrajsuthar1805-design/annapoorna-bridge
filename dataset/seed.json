@@ -1,0 +1,14 @@
+{
+  "system": "Annapoorna Bridge",
+  "generatedAt": "2026-10-15T14:50:00.000Z",
+  "admin": {
+    "name": "Platform Administrator (SDG Cell)",
+    "email": "admin@annapoornabridge.org",
+    "password": "AdminPassword123!",
+    "role": "admin",
+    "phone": "+91 98000 00000",
+    "city": "Bengaluru",
+    "address": "National Food Security & Sustainability Directorate, Bengaluru 560001",
+    "isVerified": true
+  }
+}

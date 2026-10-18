@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Platform Governance &amp; SDG Impact Hub | Annapoorna Bridge</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Demo Bar -->
+  <div class="demo-bar">
+    <div class="container">
+      <div>
+        <span>🛡️ <strong>Platform Administration:</strong> SDG 2 &amp; SDG 11 Verification &amp; Governance Center</span>
+      </div>
+      <div class="demo-quick-buttons">
+        <button class="btn-demo" onclick="quickDemoLogin('donor')">Switch to Donor 🏢</button>
+        <button class="btn-demo" onclick="quickDemoLogin('ngo')">Switch to NGO 🚚</button>
+        <button class="btn-demo" onclick="Auth.logout()">Log Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-link">
+        <img src="assets/logo.svg" alt="Annapoorna Bridge Logo" class="brand-logo-img">
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard-admin.html" class="active">Governance Hub</a></li>
+        <li><a href="dashboard-ngo.html">NGO Alerts</a></li>
+        <li><a href="safety-hub.html">Safety Guidelines</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="user-menu-pill">
+          <span>Platform Administrator</span>
+          <span class="role-badge role-admin">ADMIN</span>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="Auth.logout()">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Admin Main -->
+  <main class="dashboard-page">
+    <div class="container">
+
+      <div class="dashboard-header">
+        <div class="dash-title-group">
+          <h1>National SDG Food Relief Governance Portal</h1>
+          <p>Real-time analytics, NGO Darpan verification, venue licenses, and system transaction audit logs.</p>
+        </div>
+        <div class="dashboard-actions">
+          <button class="btn btn-outline btn-sm" onclick="window.location.reload()">🔄 Refresh Metrics</button>
+        </div>
+      </div>
+
+      <!-- SDG Impact Counters -->
+      <div class="grid-4" style="margin-bottom: 30px;">
+        <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+          <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">FOOD RESCUED</div>
+          <div id="admTotalKg" style="font-size: 2rem; font-weight: 800; color: var(--primary); margin: 6px 0;">0 kg</div>
+          <div style="font-size: 0.8rem; color: #15803d; font-weight: 600;">Diverted from Landfills</div>
+        </div>
+
+        <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+          <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">UN SDG 2: MEALS SERVED</div>
+          <div id="admTotalMeals" style="font-size: 2rem; font-weight: 800; color: var(--secondary); margin: 6px 0;">0</div>
+          <div style="font-size: 0.8rem; color: #b45309; font-weight: 600;">Nutritional Portions Provided</div>
+        </div>
+
+        <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+          <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">CO₂ EMISSIONS DIVERTED</div>
+          <div id="admTotalCo2" style="font-size: 2rem; font-weight: 800; color: #059669; margin: 6px 0;">0 kg</div>
+          <div style="font-size: 0.8rem; color: #047857; font-weight: 600;">Greenhouse Gases Averted</div>
+        </div>
+
+        <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+          <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">WATER EMBODIED SAVED</div>
+          <div id="admTotalWater" style="font-size: 2rem; font-weight: 800; color: #0284c7; margin: 6px 0;">0 kL</div>
+          <div style="font-size: 0.8rem; color: #0369a1; font-weight: 600;">Agricultural Water Conserved</div>
+        </div>
+      </div>
+
+      <!-- Verification Queue & City Analytics Grid -->
+      <div class="grid-2" style="margin-bottom: 40px; align-items: flex-start;">
+
+        <!-- Verification Queue -->
+        <div style="background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--dark);">NGO &amp; Donor Verification Queue</h2>
+            <span style="font-size: 0.78rem; color: #64748b;">NITI Aayog Darpan &amp; FSSAI Verification</span>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+              <thead>
+                <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; font-size: 0.75rem; text-transform: uppercase; color: #64748b;">
+                  <th style="padding: 10px;">Organization</th>
+                  <th style="padding: 10px;">Role</th>
+                  <th style="padding: 10px;">City</th>
+                  <th style="padding: 10px;">Credentials</th>
+                  <th style="padding: 10px;">Status</th>
+                  <th style="padding: 10px; text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="verificationTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- City-by-City Distribution Breakdown -->
+        <div style="background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow-sm);">
+          <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--dark); margin-bottom: 16px;">
+            City-Level Food Redistribution Statistics
+          </h2>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+              <thead>
+                <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; font-size: 0.75rem; text-transform: uppercase; color: #64748b;">
+                  <th style="padding: 10px;">City</th>
+                  <th style="padding: 10px;">Total Batches</th>
+                  <th style="padding: 10px;">Kg Rescued</th>
+                  <th style="padding: 10px;">Plates Distributed</th>
+                </tr>
+              </thead>
+              <tbody id="cityStatsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Real-Time Audit Trail Section -->
+      <section style="background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--dark);">System Transaction Audit Trail</h2>
+            <p style="font-size: 0.85rem; color: #64748b;">Immutable chronological log of all surplus postings, atomic NGO claims, and transit events.</p>
+          </div>
+        </div>
+
+        <div id="auditTrailList" style="max-height: 400px; overflow-y: auto;">
+          <!-- Injected via admin.js -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/socket.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

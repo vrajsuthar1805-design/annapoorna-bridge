@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <defs>
+    <linearGradient id="favBridge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803D" />
+      <stop offset="100%" stop-color="#22C55E" />
+    </linearGradient>
+    <linearGradient id="favGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#064E3B"/>
+  <!-- Bridge Arch -->
+  <path d="M 10 50 Q 32 18 54 50" stroke="#FDE68A" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <!-- Annapoorna Vessel -->
+  <path d="M 21 34 C 21 24 43 24 43 34 C 43 43 21 43 21 34 Z" fill="url(#favGold)"/>
+  <ellipse cx="32" cy="29" rx="10" ry="3.5" fill="#FEF08A"/>
+  <!-- Sprout Leaf -->
+  <path d="M 32 15 Q 43 8 44 20 Q 36 22 32 15 Z" fill="#4ADE80"/>
+  <line x1="8" y1="52" x2="56" y2="52" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

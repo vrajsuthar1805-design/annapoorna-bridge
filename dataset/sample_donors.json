@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Grand Chola Banquets & Events",
+    "email": "donor.chola@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "donor",
+    "phone": "+91 98450 12345",
+    "city": "Bengaluru",
+    "address": "88/2 Hosur Main Road, Koramangala, Bengaluru, Karnataka 560034",
+    "isVerified": true,
+    "donorDetails": {
+      "organizationType": "Marriage Hall / Banquet",
+      "licenseNumber": "FSSAI-2023-BAN-9842",
+      "contactPerson": "Ramesh Kulkarni",
+      "capacity": "1500 guests"
+    }
+  },
+  {
+    "name": "Royal Orchid Palace & Convention",
+    "email": "donor.orchid@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "donor",
+    "phone": "+91 98200 54321",
+    "city": "Mumbai",
+    "address": "Plot 14, Saki Naka Junction, Andheri East, Mumbai, Maharashtra 400072",
+    "isVerified": true,
+    "donorDetails": {
+      "organizationType": "Convention Center",
+      "licenseNumber": "FSSAI-2024-MUM-7123",
+      "contactPerson": "Pooja Mehta",
+      "capacity": "2500 guests"
+    }
+  },
+  {
+    "name": "Infosys Global Campus Hostel 4",
+    "email": "donor.hostel@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "donor",
+    "phone": "+91 97311 88765",
+    "city": "Bengaluru",
+    "address": "Gate 3, Infosys Campus, Electronic City Phase 1, Bengaluru 560100",
+    "isVerified": true,
+    "donorDetails": {
+      "organizationType": "Hostel / Campus Mess",
+      "licenseNumber": "KA-EDU-HOSTEL-441",
+      "contactPerson": "Catering Manager Venkat",
+      "capacity": "800 residents"
+    }
+  },
+  {
+    "name": "Shagun Grand Wedding Lawns",
+    "email": "donor.shagun@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "donor",
+    "phone": "+91 98111 22334",
+    "city": "New Delhi",
+    "address": "Sector 12 Main Road, Dwarka, New Delhi 110078",
+    "isVerified": true,
+    "donorDetails": {
+      "organizationType": "Marriage Hall",
+      "licenseNumber": "DL-WED-5541",
+      "contactPerson": "Suresh Aggarwal",
+      "capacity": "1200 guests"
+    }
+  },
+  {
+    "name": "Blue Diamond Convention Center",
+    "email": "donor.pune@annapoornabridge.org",
+    "password": "Password123!",
+    "role": "donor",
+    "phone": "+91 99222 33445",
+    "city": "Pune",
+    "address": "Koregaon Park North Main Road, Pune, Maharashtra 411001",
+    "isVerified": false,
+    "donorDetails": {
+      "organizationType": "Convention Center",
+      "licenseNumber": "MH-CONV-8820",
+      "contactPerson": "Anand Joshi",
+      "capacity": "1000 guests"
+    }
+  }
+]

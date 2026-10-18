@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Safety &amp; FSSAI Compliance Hub | Annapoorna Bridge</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Demo Bar -->
+  <div class="demo-bar">
+    <div class="container">
+      <div>
+        <span>🛡️ <strong>Safety &amp; Compliance Hub:</strong> FSSAI Surplus Food Recovery Standards (2019)</span>
+      </div>
+      <div class="demo-quick-buttons">
+        <button class="btn-demo" onclick="quickDemoLogin('donor')">Open Donor Dashboard 🏢</button>
+        <button class="btn-demo" onclick="quickDemoLogin('ngo')">Open NGO Feed 🚚</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-link">
+        <img src="assets/logo.svg" alt="Annapoorna Bridge Logo" class="brand-logo-img">
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard-ngo.html">NGO Alerts</a></li>
+        <li><a href="dashboard-donor.html">Donor Portal</a></li>
+        <li><a href="safety-hub.html" class="active">Safety &amp; FSSAI</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div id="navAuthActions" style="display: flex; gap: 8px;">
+          <a href="index.html" class="btn btn-outline btn-sm">Sign In / Register</a>
+        </div>
+        <div id="navUserActions" style="display: none;">
+          <button class="btn btn-outline btn-sm" onclick="Auth.logout()">Log Out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="dashboard-page">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="section-header" style="margin-bottom: 36px; text-align: left;">
+        <span class="section-tag">STATUTORY REGULATORY FRAMEWORK</span>
+        <h1 class="section-title">FSSAI Surplus Food Regulations &amp; Safety Protocols</h1>
+        <p class="section-desc">
+          Under the <strong>Food Safety and Standards (Recovery and Distribution of Surplus Food) Regulations, 2019</strong>, all donors and relief agencies must adhere to temperature controls, hygiene safeguards, and perishable shelf-life thresholds.
+        </p>
+      </div>
+
+      <!-- Temperature Rule Cards -->
+      <section style="margin-bottom: 40px;">
+        <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 14px;">
+          1. Critical Temperature Boundaries
+        </h2>
+        <div id="temperatureRulesContainer" class="grid-3">
+          <!-- Injected dynamically via safety.js -->
+        </div>
+      </section>
+
+      <!-- Interactive Shelf-Life Calculator -->
+      <section style="background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: var(--shadow-sm); margin-bottom: 40px;">
+        <div style="margin-bottom: 20px;">
+          <span style="font-size: 0.75rem; font-weight: 700; background: #e0f2fe; color: #0284c7; padding: 2px 8px; border-radius: 4px;">
+            STANDARD 4-HOUR CRITERIA
+          </span>
+          <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--dark); margin-top: 6px;">
+            Food Freshness &amp; Safety Calculator
+          </h2>
+          <p style="font-size: 0.9rem; color: #64748b;">
+            Check if food is eligible for redistribution under the strict 4-hour safety rule. Food cooked within 4 hours is permitted; food older than 4 hours cannot be posted by donors and cannot be accepted by NGOs.
+          </p>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>When was the food cooked / prepared? *</label>
+            <input type="datetime-local" id="calcCookedTime" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label>Freshness Policy</label>
+            <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px; padding: 10px 14px; color: #166534; font-size: 0.88rem; font-weight: 600;">
+              ⏱️ <strong>Strict 4-Hour Limit:</strong> Food must be consumed within 4 hours of preparation.
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-start; margin-top: 10px;">
+          <button id="btnCalculateShelfLife" class="btn btn-primary">
+            ⚡ Check Food Safety Eligibility
+          </button>
+        </div>
+
+        <!-- Result Box -->
+        <div id="calcResultBox" style="display: none; margin-top: 20px;"></div>
+      </section>
+
+      <!-- Prohibited Foods & Clean Transport Protocols Grid -->
+      <div class="grid-2" style="margin-bottom: 40px;">
+
+        <!-- Prohibited Foods -->
+        <div style="background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+            <span style="font-size: 1.4rem;">🚫</span>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #991b1b;">High-Risk Prohibited Foods</h3>
+          </div>
+          <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 16px;">
+            The following food items carry severe microbiological hazard risks and <strong>must never be redistributed</strong>:
+          </p>
+          <ul id="prohibitedFoodsList" style="list-style: none;">
+            <!-- Populated dynamically via safety.js -->
+          </ul>
+        </div>
+
+        <!-- Mandatory Checklist -->
+        <div style="background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+            <span style="font-size: 1.4rem;">✅</span>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #166534;">Mandatory Hygiene Checklist</h3>
+          </div>
+          <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 16px;">
+            Every donor must acknowledge the following 5 safety checkpoints before publishing a surplus listing:
+          </p>
+          <ul id="mandatoryChecklist" style="list-style: none;">
+            <!-- Populated dynamically via safety.js -->
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Clean Transport SOPs -->
+      <section style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 14px; padding: 26px; margin-bottom: 40px;">
+        <h3 style="font-size: 1.2rem; font-weight: 800; color: #166534; margin-bottom: 10px;">
+          🚚 Safe Transit Standard Operating Procedures for NGOs
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; font-size: 0.88rem; color: #15803d; margin-top: 14px;">
+          <div>
+            <strong>1. Vehicle Sanitization</strong>
+            <p style="color: #334155; margin-top: 4px;">Vehicles used for food recovery must be free from dust, fuel residue, and maintained in clean hygienic condition.</p>
+          </div>
+          <div>
+            <strong>2. Covered Thermal Containers</strong>
+            <p style="color: #334155; margin-top: 4px;">All vessels must be securely lidded. Hot food should be insulated to retain temperature above 60°C during transport.</p>
+          </div>
+          <div>
+            <strong>3. Immediate Community Serving</strong>
+            <p style="color: #334155; margin-top: 4px;">Food should be served immediately upon reaching destination shelters; avoid secondary reheating cycles.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/socket.js"></script>
+  <script src="js/safety.js"></script>
+</body>
+</html>
